@@ -1,15 +1,10 @@
 import 'package:diagram_editor/diagram_editor.dart';
-import 'package:diagram_editor_apps/policy/default_custom_policy.dart';
-import 'package:flutter/gestures.dart';
+import 'package:diagram_editor_apps/simple_demo/policy/custom_policy.dart';
 import 'package:flutter/material.dart';
 
-mixin DefaultComponentPolicy implements ComponentPolicy, CustomStatePolicy {
+mixin MyComponentPolicy implements ComponentPolicy, CustomStatePolicy {
   onComponentTap(String componentId) {
     hideAllHighlights();
-
-    // TODO: continue here
-    // port HL
-    // todo better
 
     bool connected = connectComponents(selectedComponentId, componentId);
     if (connected) {
@@ -17,15 +12,9 @@ mixin DefaultComponentPolicy implements ComponentPolicy, CustomStatePolicy {
       selectedComponentId = null;
     } else {
       selectedComponentId = componentId;
-      canvasWriter.model.moveComponentToTheFrontWithChildren(componentId);
 
-      if (canvasReader.model.getComponent(componentId).type == 'rect') {
-        canvasReader.model.getComponent(componentId).data.showHighlight();
-      }
+      highlightComponent(componentId);
     }
-
-    canvasWriter.model.hideAllLinkJoints();
-    canvasWriter.model.hideAllLinkDeleteIcons();
   }
 
   Offset lastFocalPoint;
@@ -55,8 +44,6 @@ mixin DefaultComponentPolicy implements ComponentPolicy, CustomStatePolicy {
         (connection) => connection.otherComponentId == targetComponentId)) {
       return false;
     }
-
-    // TODO type
 
     canvasWriter.model.connectTwoComponents(
       sourceComponentId: sourceComponentId,

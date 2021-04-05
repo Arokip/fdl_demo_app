@@ -1,11 +1,11 @@
 import 'dart:math' as math;
 
 import 'package:diagram_editor/diagram_editor.dart';
-import 'package:diagram_editor_apps/policy/default_custom_policy.dart';
-import 'package:diagram_editor_apps/widget/rect_widget_body.dart';
+import 'package:diagram_editor_apps/port_demo/policy/custom_policy.dart';
+import 'package:diagram_editor_apps/port_demo/widget/rect_widget_body.dart';
 import 'package:flutter/material.dart';
 
-mixin DefaultCanvasPolicy implements CanvasPolicy, CustomStatePolicy {
+mixin MyCanvasPolicy implements CanvasPolicy, CustomStatePolicy {
   onCanvasTap() {
     selectedComponentId = null;
 

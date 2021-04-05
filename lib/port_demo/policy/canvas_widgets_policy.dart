@@ -1,52 +1,9 @@
 import 'package:diagram_editor/diagram_editor.dart';
-import 'package:diagram_editor_apps/policy/default_custom_policy.dart';
-import 'package:diagram_editor_apps/widget/rect_widget_body.dart';
+import 'package:diagram_editor_apps/port_demo/policy/custom_policy.dart';
+import 'package:diagram_editor_apps/port_demo/widget/rect_widget_body.dart';
 import 'package:flutter/material.dart';
 
-mixin DefaultCanvasWidgetsPolicy
-    implements CanvasWidgetsPolicy, CustomStatePolicy {
-  @override
-  Widget showCustomWidgetWithComponentDataOver(ComponentData componentData) {
-    switch (componentData.type) {
-      case 'rect':
-        return Visibility(
-          visible: componentData.data.isHighlightVisible,
-          child: Positioned(
-            left: canvasReader.state
-                    .toCanvasCoordinates(componentData.position)
-                    .dx -
-                50,
-            top: canvasReader.state
-                    .toCanvasCoordinates(componentData.position)
-                    .dy -
-                50,
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.red,
-                shape: BoxShape.circle,
-              ),
-              child: IconButton(
-                color: Colors.blue,
-                onPressed: () {
-                  canvasWriter.model
-                      .removeComponentWithChildren(componentData.id);
-                  selectedComponentId = null;
-                },
-                icon: Icon(Icons.delete_forever, color: Colors.white),
-              ),
-            ),
-          ),
-        );
-        break;
-      case 'port':
-        return SizedBox.shrink();
-        break;
-      default:
-        return SizedBox.shrink();
-        break;
-    }
-  }
-
+mixin MyCanvasWidgetsPolicy implements CanvasWidgetsPolicy, CustomStatePolicy {
   @override
   List<Widget> showCustomWidgetsOnCanvasBackground(BuildContext context) {
     return [
@@ -84,6 +41,7 @@ mixin DefaultCanvasWidgetsPolicy
         position: componentPosition,
         data: RectCustomData.copy(componentData.data),
         size: componentData.size,
+        minSize: componentData.minSize,
         type: 'rect',
       ),
     );
