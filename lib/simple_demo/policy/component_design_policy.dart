@@ -2,6 +2,8 @@ import 'package:diagram_editor/diagram_editor.dart';
 import 'package:diagram_editor_apps/simple_demo/widget/component/bean_component.dart';
 import 'package:diagram_editor_apps/simple_demo/widget/component/bean_left_component.dart';
 import 'package:diagram_editor_apps/simple_demo/widget/component/bean_right_component.dart';
+import 'package:diagram_editor_apps/simple_demo/widget/component/bend_left_component.dart';
+import 'package:diagram_editor_apps/simple_demo/widget/component/bend_right_component.dart';
 import 'package:diagram_editor_apps/simple_demo/widget/component/crystal_component.dart';
 import 'package:diagram_editor_apps/simple_demo/widget/component/document_component.dart';
 import 'package:diagram_editor_apps/simple_demo/widget/component/hexagon_horizontal_component.dart';
@@ -51,6 +53,12 @@ mixin MyComponentDesignPolicy implements ComponentDesignPolicy {
         break;
       case 'hexagon_vertical':
         return HexagonVerticalBody(componentData: componentData);
+        break;
+      case 'bend_left':
+        return BendLeftBody(componentData: componentData);
+        break;
+      case 'bend_right':
+        return BendRightBody(componentData: componentData);
         break;
       default:
         return null;

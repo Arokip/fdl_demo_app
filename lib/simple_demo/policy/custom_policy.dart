@@ -13,6 +13,8 @@ mixin CustomStatePolicy implements PolicySet {
     'document',
     'hexagon_horizontal',
     'hexagon_vertical',
+    'bend_left',
+    'bend_right',
   ];
 
   String selectedComponentId;

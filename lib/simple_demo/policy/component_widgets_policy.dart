@@ -112,7 +112,7 @@ mixin MyComponentWidgetsPolicy
             size: 24,
             shape: BoxShape.rectangle,
             onPressed: () =>
-                canvasWriter.model.moveComponentToTheBack(componentData.id),
+                canvasWriter.model.moveComponentToTheFront(componentData.id),
           ),
           SizedBox(width: 12),
           OptionIcon(
