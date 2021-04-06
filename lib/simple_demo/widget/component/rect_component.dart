@@ -28,9 +28,10 @@ class RectWidgetBody extends StatelessWidget {
           ),
         ),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(customData.text),
             Icon(Icons.tag_faces),
+            Text(customData.text),
           ],
         ),
       ),
