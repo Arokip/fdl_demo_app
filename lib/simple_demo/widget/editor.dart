@@ -1,5 +1,5 @@
 import 'package:diagram_editor/diagram_editor.dart';
-import 'package:diagram_editor_apps/simple_demo/menu.dart';
+import 'file:///C:/Users/Arokip/Documents/FlutterApps/diagram_editor_apps/lib/simple_demo/widget/menu.dart';
 import 'package:diagram_editor_apps/simple_demo/policy/minimap_policy.dart';
 import 'package:diagram_editor_apps/simple_demo/policy/my_policy_set.dart';
 import 'package:flutter/material.dart';

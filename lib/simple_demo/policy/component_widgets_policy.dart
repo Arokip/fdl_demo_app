@@ -4,6 +4,7 @@ import 'package:diagram_editor/diagram_editor.dart';
 import 'package:diagram_editor_apps/simple_demo/custom_data.dart';
 import 'package:diagram_editor_apps/simple_demo/edit_dialog.dart';
 import 'package:diagram_editor_apps/simple_demo/policy/custom_policy.dart';
+import 'package:diagram_editor_apps/simple_demo/widget/option_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -33,7 +34,7 @@ mixin MyComponentWidgetsPolicy
       top: componentPosition.dy - 48,
       child: Row(
         children: [
-          option(
+          OptionWidget(
             color: Colors.red,
             iconData: Icons.delete_forever,
             tooltip: 'delete',
@@ -44,7 +45,7 @@ mixin MyComponentWidgetsPolicy
             },
           ),
           SizedBox(width: 12),
-          option(
+          OptionWidget(
             color: Colors.yellow,
             iconData: Icons.copy,
             tooltip: 'duplicate',
@@ -62,7 +63,7 @@ mixin MyComponentWidgetsPolicy
             },
           ),
           SizedBox(width: 12),
-          option(
+          OptionWidget(
             color: Colors.lightGreen,
             iconData: Icons.color_lens,
             tooltip: 'random color',
@@ -75,7 +76,7 @@ mixin MyComponentWidgetsPolicy
             },
           ),
           SizedBox(width: 12),
-          option(
+          OptionWidget(
             color: Colors.greenAccent,
             iconData: Icons.link_off,
             tooltip: 'remove links',
@@ -84,7 +85,7 @@ mixin MyComponentWidgetsPolicy
                 canvasWriter.model.removeComponentConnections(componentData.id),
           ),
           SizedBox(width: 12),
-          option(
+          OptionWidget(
             color: Colors.blueGrey,
             iconData: Icons.edit,
             tooltip: 'edit',
@@ -104,7 +105,7 @@ mixin MyComponentWidgetsPolicy
       top: componentBottomLeftCorner.dy + 8,
       child: Row(
         children: [
-          option(
+          OptionWidget(
             color: Colors.grey.withOpacity(0.7),
             iconData: Icons.arrow_upward,
             tooltip: 'bring to front',
@@ -114,7 +115,7 @@ mixin MyComponentWidgetsPolicy
                 canvasWriter.model.moveComponentToTheBack(componentData.id),
           ),
           SizedBox(width: 12),
-          option(
+          OptionWidget(
             color: Colors.grey.withOpacity(0.7),
             iconData: Icons.arrow_downward,
             tooltip: 'move to back',
@@ -174,70 +175,4 @@ mixin MyComponentWidgetsPolicy
       ),
     );
   }
-
-  Widget option({
-    Color color = Colors.grey,
-    double size = 40,
-    BoxShape shape = BoxShape.circle,
-    String tooltip,
-    IconData iconData,
-    Color iconColor = Colors.black,
-    double iconSize = 20,
-    Function onPressed,
-  }) {
-    return Container(
-      width: size,
-      height: size,
-      decoration: BoxDecoration(
-        color: color,
-        shape: shape,
-      ),
-      child: IconButton(
-        tooltip: tooltip,
-        onPressed: () {
-          if (onPressed != null) {
-            onPressed();
-          }
-        },
-        padding: EdgeInsets.all(0),
-        icon: Icon(
-          iconData,
-          color: iconColor,
-          size: iconSize,
-        ),
-      ),
-    );
-  }
 }
-//
-// class EditOptionWithContext extends StatelessWidget {
-//   final ComponentData componentData;
-//
-//   const EditOptionWithContext({
-//     Key key,
-//     this.componentData,
-//   }) : super(key: key);
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       width: 40,
-//       height: 40,
-//       decoration: BoxDecoration(
-//         color: Colors.blueGrey,
-//         shape: BoxShape.circle,
-//       ),
-//       child: IconButton(
-//         tooltip: 'edit',
-//         onPressed: () {
-//           showEditComponentDialog(context, componentData);
-//         },
-//         icon: Icon(
-//           Icons.edit,
-//           color: Colors.black,
-//           size: 20,
-//         ),
-//       ),
-//     );
-//   }
-// }

@@ -1,7 +1,8 @@
 import 'package:diagram_editor/diagram_editor.dart';
-import 'package:diagram_editor_apps/simple_demo/widget/crystal_component.dart';
-import 'package:diagram_editor_apps/simple_demo/widget/oval_component.dart';
-import 'package:diagram_editor_apps/simple_demo/widget/rect_component.dart';
+import 'package:diagram_editor_apps/simple_demo/widget/component/crystal_component.dart';
+import 'package:diagram_editor_apps/simple_demo/widget/component/oval_component.dart';
+import 'package:diagram_editor_apps/simple_demo/widget/component/rect_component.dart';
+
 import 'package:flutter/material.dart';
 
 mixin MyComponentDesignPolicy implements ComponentDesignPolicy {

@@ -1,5 +1,5 @@
 import 'package:diagram_editor_apps/port_demo/editor.dart';
-import 'package:diagram_editor_apps/simple_demo/editor.dart';
+import 'file:///C:/Users/Arokip/Documents/FlutterApps/diagram_editor_apps/lib/simple_demo/widget/editor.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
