@@ -45,7 +45,7 @@ mixin MyComponentPolicy implements ComponentPolicy, CustomStatePolicy {
       return false;
     }
 
-    canvasWriter.model.connectTwoComponents(
+    String linkId = canvasWriter.model.connectTwoComponents(
       sourceComponentId: sourceComponentId,
       targetComponentId: targetComponentId,
       linkStyle: LinkStyle(
@@ -53,6 +53,11 @@ mixin MyComponentPolicy implements ComponentPolicy, CustomStatePolicy {
         width: 1.5,
       ),
     );
+
+    var link = canvasReader.model.getLink(linkId);
+    link.startLabel = linkId.substring(0, 5);
+    link.endLabel = linkId.substring(0, 5);
+
     return true;
   }
 }

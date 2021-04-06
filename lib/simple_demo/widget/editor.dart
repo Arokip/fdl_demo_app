@@ -44,10 +44,6 @@ class _SimpleDemoEditorState extends State<SimpleDemoEditor> {
             children: [
               Container(color: Colors.grey),
               Positioned(
-                // width: 600,
-                // height: 400,
-                // top: 10,
-                // left: 10,
                 child: Padding(
                   padding: EdgeInsets.all(16),
                   child: DiagramEditor(
@@ -58,8 +54,6 @@ class _SimpleDemoEditorState extends State<SimpleDemoEditor> {
               Positioned(
                 right: 16,
                 top: 16,
-                // width: 320,
-                // height: 240,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
@@ -106,7 +100,7 @@ class _SimpleDemoEditorState extends State<SimpleDemoEditor> {
                   child: Row(
                     children: [
                       OptionIcon(
-                        color: Colors.grey.withOpacity(0.5),
+                        color: Colors.grey.withOpacity(0.7),
                         iconData:
                             isOptionsVisible ? Icons.menu_open : Icons.menu,
                         shape: BoxShape.rectangle,
@@ -122,13 +116,13 @@ class _SimpleDemoEditorState extends State<SimpleDemoEditor> {
                         child: Row(
                           children: [
                             OptionIcon(
-                              color: Colors.grey.withOpacity(0.5),
+                              color: Colors.grey.withOpacity(0.7),
                               iconData: Icons.replay,
                               onPressed: () => myPolicySet.resetView(),
                             ),
                             SizedBox(width: 8),
                             OptionIcon(
-                              color: Colors.grey.withOpacity(0.5),
+                              color: Colors.grey.withOpacity(0.7),
                               iconData: Icons.delete_forever,
                               onPressed: () => myPolicySet.removeAll(),
                             ),
@@ -147,7 +141,7 @@ class _SimpleDemoEditorState extends State<SimpleDemoEditor> {
                     Visibility(
                       visible: isMenuVisible,
                       child: Container(
-                        color: Colors.grey.withOpacity(0.5),
+                        color: Colors.grey.withOpacity(0.7),
                         width: 120,
                         height: 320,
                         child: DraggableMenu(myPolicySet: myPolicySet),
@@ -175,7 +169,7 @@ class _SimpleDemoEditorState extends State<SimpleDemoEditor> {
                 ),
               ),
               Positioned(
-                top: 40,
+                top: 8,
                 left: 8,
                 child: ElevatedButton(
                   style: ButtonStyle(
