@@ -16,9 +16,9 @@ class RectWidgetBody extends StatelessWidget {
     final CustomData customData = componentData.data;
 
     return GestureDetector(
-      // onLongPress: () {
-      //   showEditComponentDialog(context, componentData);
-      // },
+      onLongPress: () {
+        showEditComponentDialog(context, componentData);
+      },
       child: Container(
         decoration: BoxDecoration(
           color: customData.color,
