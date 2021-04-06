@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class OptionWidget extends StatelessWidget {
+class OptionIcon extends StatelessWidget {
   final Color color;
   final double size;
   final BoxShape shape;
@@ -10,7 +10,7 @@ class OptionWidget extends StatelessWidget {
   final double iconSize;
   final Function onPressed;
 
-  const OptionWidget({
+  const OptionIcon({
     Key key,
     this.color = Colors.grey,
     this.size = 40,

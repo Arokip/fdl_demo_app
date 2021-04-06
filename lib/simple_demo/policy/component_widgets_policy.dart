@@ -4,7 +4,7 @@ import 'package:diagram_editor/diagram_editor.dart';
 import 'package:diagram_editor_apps/simple_demo/custom_data.dart';
 import 'package:diagram_editor_apps/simple_demo/edit_dialog.dart';
 import 'package:diagram_editor_apps/simple_demo/policy/custom_policy.dart';
-import 'package:diagram_editor_apps/simple_demo/widget/option_widget.dart';
+import 'package:diagram_editor_apps/simple_demo/widget/option_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -34,7 +34,7 @@ mixin MyComponentWidgetsPolicy
       top: componentPosition.dy - 48,
       child: Row(
         children: [
-          OptionWidget(
+          OptionIcon(
             color: Colors.red,
             iconData: Icons.delete_forever,
             tooltip: 'delete',
@@ -45,7 +45,7 @@ mixin MyComponentWidgetsPolicy
             },
           ),
           SizedBox(width: 12),
-          OptionWidget(
+          OptionIcon(
             color: Colors.yellow,
             iconData: Icons.copy,
             tooltip: 'duplicate',
@@ -63,7 +63,7 @@ mixin MyComponentWidgetsPolicy
             },
           ),
           SizedBox(width: 12),
-          OptionWidget(
+          OptionIcon(
             color: Colors.lightGreen,
             iconData: Icons.color_lens,
             tooltip: 'random color',
@@ -76,7 +76,7 @@ mixin MyComponentWidgetsPolicy
             },
           ),
           SizedBox(width: 12),
-          OptionWidget(
+          OptionIcon(
             color: Colors.greenAccent,
             iconData: Icons.link_off,
             tooltip: 'remove links',
@@ -85,7 +85,7 @@ mixin MyComponentWidgetsPolicy
                 canvasWriter.model.removeComponentConnections(componentData.id),
           ),
           SizedBox(width: 12),
-          OptionWidget(
+          OptionIcon(
             color: Colors.blueGrey,
             iconData: Icons.edit,
             tooltip: 'edit',
@@ -105,7 +105,7 @@ mixin MyComponentWidgetsPolicy
       top: componentBottomLeftCorner.dy + 8,
       child: Row(
         children: [
-          OptionWidget(
+          OptionIcon(
             color: Colors.grey.withOpacity(0.7),
             iconData: Icons.arrow_upward,
             tooltip: 'bring to front',
@@ -115,7 +115,7 @@ mixin MyComponentWidgetsPolicy
                 canvasWriter.model.moveComponentToTheBack(componentData.id),
           ),
           SizedBox(width: 12),
-          OptionWidget(
+          OptionIcon(
             color: Colors.grey.withOpacity(0.7),
             iconData: Icons.arrow_downward,
             tooltip: 'move to back',

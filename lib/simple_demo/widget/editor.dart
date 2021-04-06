@@ -1,7 +1,8 @@
 import 'package:diagram_editor/diagram_editor.dart';
-import 'file:///C:/Users/Arokip/Documents/FlutterApps/diagram_editor_apps/lib/simple_demo/widget/menu.dart';
 import 'package:diagram_editor_apps/simple_demo/policy/minimap_policy.dart';
 import 'package:diagram_editor_apps/simple_demo/policy/my_policy_set.dart';
+import 'package:diagram_editor_apps/simple_demo/widget/menu.dart';
+import 'package:diagram_editor_apps/simple_demo/widget/option_icon.dart';
 import 'package:flutter/material.dart';
 
 class SimpleDemoEditor extends StatefulWidget {
@@ -18,6 +19,7 @@ class _SimpleDemoEditorState extends State<SimpleDemoEditor> {
 
   bool isMiniMapVisible = true;
   bool isMenuVisible = true;
+  bool isOptionsVisible = false;
 
   @override
   void initState() {
@@ -97,24 +99,45 @@ class _SimpleDemoEditorState extends State<SimpleDemoEditor> {
                   ],
                 ),
               ),
-              Container(
-                color: Colors.yellow,
-                width: 48,
-                height: 24,
-                child: GestureDetector(
-                  onTap: () {
-                    myPolicySet.resetView();
-                  },
-                ),
-              ),
-              Container(
-                color: Colors.red,
-                width: 24,
-                height: 24,
-                child: GestureDetector(
-                  onTap: () {
-                    myPolicySet.removeAll();
-                  },
+              Align(
+                alignment: Alignment.bottomLeft,
+                child: Padding(
+                  padding: EdgeInsets.all(24),
+                  child: Row(
+                    children: [
+                      OptionIcon(
+                        color: Colors.grey.withOpacity(0.5),
+                        iconData:
+                            isOptionsVisible ? Icons.menu_open : Icons.menu,
+                        shape: BoxShape.rectangle,
+                        onPressed: () {
+                          setState(() {
+                            isOptionsVisible = !isOptionsVisible;
+                          });
+                        },
+                      ),
+                      SizedBox(width: 8),
+                      Visibility(
+                        visible: isOptionsVisible,
+                        child: Row(
+                          children: [
+                            OptionIcon(
+                              color: Colors.grey.withOpacity(0.5),
+                              iconData: Icons.replay,
+                              onPressed: () => myPolicySet.resetView(),
+                            ),
+                            SizedBox(width: 8),
+                            OptionIcon(
+                              color: Colors.grey.withOpacity(0.5),
+                              iconData: Icons.delete_forever,
+                              onPressed: () => myPolicySet.removeAll(),
+                            ),
+                            SizedBox(width: 8),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               Align(
