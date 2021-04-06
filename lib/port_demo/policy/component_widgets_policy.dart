@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 mixin MyComponentWidgetsPolicy
     implements ComponentWidgetsPolicy, CustomStatePolicy {
   @override
-  Widget showCustomWidgetWithComponentDataOver(ComponentData componentData) {
+  Widget showCustomWidgetWithComponentDataOver(
+      BuildContext context, ComponentData componentData) {
     switch (componentData.type) {
       case 'rect':
         return Visibility(
@@ -47,7 +48,8 @@ mixin MyComponentWidgetsPolicy
   }
 
   @override
-  Widget showCustomWidgetWithComponentData(ComponentData componentData) {
+  Widget showCustomWidgetWithComponentData(
+      BuildContext context, ComponentData componentData) {
     switch (componentData.type) {
       case 'rect':
         return Visibility(

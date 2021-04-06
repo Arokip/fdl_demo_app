@@ -10,12 +10,13 @@ import 'package:flutter/rendering.dart';
 mixin MyComponentWidgetsPolicy
     implements ComponentWidgetsPolicy, CustomStatePolicy {
   @override
-  Widget showCustomWidgetWithComponentDataOver(ComponentData componentData) {
+  Widget showCustomWidgetWithComponentDataOver(
+      BuildContext context, ComponentData componentData) {
     return Visibility(
       visible: componentData.data.isHighlightVisible,
       child: Stack(
         children: [
-          componentTopOptions(componentData),
+          componentTopOptions(componentData, context),
           componentBottomOptions(componentData),
           highlight(componentData),
           resizeCorner(componentData),
@@ -24,7 +25,7 @@ mixin MyComponentWidgetsPolicy
     );
   }
 
-  Widget componentTopOptions(ComponentData componentData) {
+  Widget componentTopOptions(ComponentData componentData, context) {
     Offset componentPosition =
         canvasReader.state.toCanvasCoordinates(componentData.position);
     return Positioned(
@@ -83,7 +84,13 @@ mixin MyComponentWidgetsPolicy
                 canvasWriter.model.removeComponentConnections(componentData.id),
           ),
           SizedBox(width: 12),
-          EditOptionWithContext(componentData: componentData),
+          option(
+            color: Colors.blueGrey,
+            iconData: Icons.edit,
+            tooltip: 'edit',
+            size: 40,
+            onPressed: () => showEditComponentDialog(context, componentData),
+          ),
         ],
       ),
     );
@@ -202,29 +209,35 @@ mixin MyComponentWidgetsPolicy
     );
   }
 }
-
-class EditOptionWithContext extends StatelessWidget {
-  final ComponentData componentData;
-
-  const EditOptionWithContext({
-    Key key,
-    this.componentData,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.blueGrey,
-        shape: BoxShape.circle,
-      ),
-      child: IconButton(
-        tooltip: 'edit',
-        onPressed: () {
-          showEditComponentDialog(context, componentData);
-        },
-        icon: Icon(Icons.edit, color: Colors.black),
-      ),
-    );
-  }
-}
+//
+// class EditOptionWithContext extends StatelessWidget {
+//   final ComponentData componentData;
+//
+//   const EditOptionWithContext({
+//     Key key,
+//     this.componentData,
+//   }) : super(key: key);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       width: 40,
+//       height: 40,
+//       decoration: BoxDecoration(
+//         color: Colors.blueGrey,
+//         shape: BoxShape.circle,
+//       ),
+//       child: IconButton(
+//         tooltip: 'edit',
+//         onPressed: () {
+//           showEditComponentDialog(context, componentData);
+//         },
+//         icon: Icon(
+//           Icons.edit,
+//           color: Colors.black,
+//           size: 20,
+//         ),
+//       ),
+//     );
+//   }
+// }
