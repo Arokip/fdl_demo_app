@@ -1,8 +1,15 @@
 import 'package:diagram_editor/diagram_editor.dart';
+import 'package:diagram_editor_apps/simple_demo/widget/component/bean_component.dart';
+import 'package:diagram_editor_apps/simple_demo/widget/component/bean_left_component.dart';
+import 'package:diagram_editor_apps/simple_demo/widget/component/bean_right_component.dart';
 import 'package:diagram_editor_apps/simple_demo/widget/component/crystal_component.dart';
+import 'package:diagram_editor_apps/simple_demo/widget/component/document_component.dart';
+import 'package:diagram_editor_apps/simple_demo/widget/component/hexagon_horizontal_component.dart';
+import 'package:diagram_editor_apps/simple_demo/widget/component/hexagon_vertical_component.dart';
 import 'package:diagram_editor_apps/simple_demo/widget/component/oval_component.dart';
 import 'package:diagram_editor_apps/simple_demo/widget/component/rect_component.dart';
-
+import 'package:diagram_editor_apps/simple_demo/widget/component/rhomboid_component.dart';
+import 'package:diagram_editor_apps/simple_demo/widget/component/round_rect_component.dart';
 import 'package:flutter/material.dart';
 
 mixin MyComponentDesignPolicy implements ComponentDesignPolicy {
@@ -10,16 +17,40 @@ mixin MyComponentDesignPolicy implements ComponentDesignPolicy {
   Widget showComponentBody(ComponentData componentData) {
     switch (componentData.type) {
       case 'rect':
-        return RectWidgetBody(componentData: componentData);
+        return RectBody(componentData: componentData);
+        break;
+      case 'round_rect':
+        return RoundRectBody(componentData: componentData);
         break;
       case 'oval':
-        return OvalWidgetBody(componentData: componentData);
+        return OvalBody(componentData: componentData);
         break;
       case 'crystal':
-        return CrystalWidgetBody(componentData: componentData);
+        return CrystalBody(componentData: componentData);
         break;
       case 'body':
-        return RectWidgetBody(componentData: componentData);
+        return RectBody(componentData: componentData);
+        break;
+      case 'rhomboid':
+        return RhomboidBody(componentData: componentData);
+        break;
+      case 'bean':
+        return BeanBody(componentData: componentData);
+        break;
+      case 'bean_left':
+        return BeanLeftBody(componentData: componentData);
+        break;
+      case 'bean_right':
+        return BeanRightBody(componentData: componentData);
+        break;
+      case 'document':
+        return DocumentBody(componentData: componentData);
+        break;
+      case 'hexagon_horizontal':
+        return HexagonHorizontalBody(componentData: componentData);
+        break;
+      case 'hexagon_vertical':
+        return HexagonVerticalBody(componentData: componentData);
         break;
       default:
         return null;

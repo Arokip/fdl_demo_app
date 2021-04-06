@@ -3,10 +3,10 @@ import 'package:diagram_editor_apps/simple_demo/custom_data.dart';
 import 'package:diagram_editor_apps/simple_demo/edit_dialog.dart';
 import 'package:flutter/material.dart';
 
-class CrystalBody extends StatelessWidget {
+class DocumentBody extends StatelessWidget {
   final ComponentData componentData;
 
-  const CrystalBody({
+  const DocumentBody({
     Key key,
     this.componentData,
   }) : super(key: key);
@@ -20,10 +20,10 @@ class CrystalBody extends StatelessWidget {
         showEditComponentDialog(context, componentData);
       },
       child: CustomPaint(
-        painter: CrystalPainter(
+        painter: DocumentPainter(
           color: customData.color,
           borderColor:
-              customData.isHighlightVisible ? Colors.teal : Colors.grey[300],
+              customData.isHighlightVisible ? Colors.teal : Colors.black,
           borderWidth: 2.0,
         ),
         child: Center(
@@ -34,13 +34,13 @@ class CrystalBody extends StatelessWidget {
   }
 }
 
-class CrystalPainter extends CustomPainter {
+class DocumentPainter extends CustomPainter {
   final Color color;
   final Color borderColor;
   final double borderWidth;
   Size componentSize;
 
-  CrystalPainter({
+  DocumentPainter({
     this.color = Colors.grey,
     this.borderColor = Colors.black,
     this.borderWidth = 1.0,
@@ -76,10 +76,23 @@ class CrystalPainter extends CustomPainter {
 
   Path componentPath() {
     Path path = Path();
-    path.moveTo(0, componentSize.height / 2);
-    path.lineTo(componentSize.width / 2, 0);
-    path.lineTo(componentSize.width, componentSize.height / 2);
-    path.lineTo(componentSize.width / 2, componentSize.height);
+    path.moveTo(0, 0);
+    path.lineTo(componentSize.width, 0);
+    path.lineTo(componentSize.width, 9 * componentSize.height / 10);
+    path.quadraticBezierTo(
+      3 * componentSize.width / 4,
+      7 * componentSize.height / 10,
+      componentSize.width / 2,
+      9 * componentSize.height / 10,
+    );
+
+    path.quadraticBezierTo(
+      componentSize.width / 4,
+      11 * componentSize.height / 10,
+      0,
+      9 * componentSize.height / 10,
+    );
+
     path.close();
     return path;
   }

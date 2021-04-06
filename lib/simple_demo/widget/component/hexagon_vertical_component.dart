@@ -3,10 +3,10 @@ import 'package:diagram_editor_apps/simple_demo/custom_data.dart';
 import 'package:diagram_editor_apps/simple_demo/edit_dialog.dart';
 import 'package:flutter/material.dart';
 
-class CrystalBody extends StatelessWidget {
+class HexagonVerticalBody extends StatelessWidget {
   final ComponentData componentData;
 
-  const CrystalBody({
+  const HexagonVerticalBody({
     Key key,
     this.componentData,
   }) : super(key: key);
@@ -20,7 +20,7 @@ class CrystalBody extends StatelessWidget {
         showEditComponentDialog(context, componentData);
       },
       child: CustomPaint(
-        painter: CrystalPainter(
+        painter: HexagonVerticalPainter(
           color: customData.color,
           borderColor:
               customData.isHighlightVisible ? Colors.teal : Colors.grey[300],
@@ -34,13 +34,13 @@ class CrystalBody extends StatelessWidget {
   }
 }
 
-class CrystalPainter extends CustomPainter {
+class HexagonVerticalPainter extends CustomPainter {
   final Color color;
   final Color borderColor;
   final double borderWidth;
   Size componentSize;
 
-  CrystalPainter({
+  HexagonVerticalPainter({
     this.color = Colors.grey,
     this.borderColor = Colors.black,
     this.borderWidth = 1.0,
@@ -76,10 +76,12 @@ class CrystalPainter extends CustomPainter {
 
   Path componentPath() {
     Path path = Path();
-    path.moveTo(0, componentSize.height / 2);
-    path.lineTo(componentSize.width / 2, 0);
-    path.lineTo(componentSize.width, componentSize.height / 2);
+    path.moveTo(componentSize.width / 2, 0);
+    path.lineTo(componentSize.width, componentSize.height / 4);
+    path.lineTo(componentSize.width, 3 * componentSize.height / 4);
     path.lineTo(componentSize.width / 2, componentSize.height);
+    path.lineTo(0, 3 * componentSize.height / 4);
+    path.lineTo(0, componentSize.height / 4);
     path.close();
     return path;
   }

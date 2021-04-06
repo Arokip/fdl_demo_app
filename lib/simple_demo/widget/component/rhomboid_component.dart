@@ -3,10 +3,10 @@ import 'package:diagram_editor_apps/simple_demo/custom_data.dart';
 import 'package:diagram_editor_apps/simple_demo/edit_dialog.dart';
 import 'package:flutter/material.dart';
 
-class CrystalBody extends StatelessWidget {
+class RhomboidBody extends StatelessWidget {
   final ComponentData componentData;
 
-  const CrystalBody({
+  const RhomboidBody({
     Key key,
     this.componentData,
   }) : super(key: key);
@@ -20,7 +20,7 @@ class CrystalBody extends StatelessWidget {
         showEditComponentDialog(context, componentData);
       },
       child: CustomPaint(
-        painter: CrystalPainter(
+        painter: RhomboidPainter(
           color: customData.color,
           borderColor:
               customData.isHighlightVisible ? Colors.teal : Colors.grey[300],
@@ -34,13 +34,13 @@ class CrystalBody extends StatelessWidget {
   }
 }
 
-class CrystalPainter extends CustomPainter {
+class RhomboidPainter extends CustomPainter {
   final Color color;
   final Color borderColor;
   final double borderWidth;
   Size componentSize;
 
-  CrystalPainter({
+  RhomboidPainter({
     this.color = Colors.grey,
     this.borderColor = Colors.black,
     this.borderWidth = 1.0,
@@ -76,10 +76,10 @@ class CrystalPainter extends CustomPainter {
 
   Path componentPath() {
     Path path = Path();
-    path.moveTo(0, componentSize.height / 2);
-    path.lineTo(componentSize.width / 2, 0);
-    path.lineTo(componentSize.width, componentSize.height / 2);
-    path.lineTo(componentSize.width / 2, componentSize.height);
+    path.moveTo(componentSize.width / 6, 0);
+    path.lineTo(componentSize.width, 0);
+    path.lineTo(5 * componentSize.width / 6, componentSize.height);
+    path.lineTo(0, componentSize.height);
     path.close();
     return path;
   }

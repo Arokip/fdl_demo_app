@@ -1,12 +1,13 @@
 import 'package:diagram_editor/diagram_editor.dart';
 import 'package:diagram_editor_apps/simple_demo/custom_data.dart';
 import 'package:diagram_editor_apps/simple_demo/edit_dialog.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class RectBody extends StatelessWidget {
+class RoundRectBody extends StatelessWidget {
   final ComponentData componentData;
 
-  const RectBody({
+  const RoundRectBody({
     Key key,
     @required this.componentData,
   }) : super(key: key);
@@ -22,18 +23,13 @@ class RectBody extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: customData.color,
+          borderRadius: BorderRadius.all(Radius.circular(16)),
           border: Border.all(
             width: 2.0,
             color: customData.isHighlightVisible ? Colors.pink : Colors.black,
           ),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.tag_faces),
-            Text(customData.text),
-          ],
-        ),
+        child: Center(child: Text(customData.text)),
       ),
     );
   }

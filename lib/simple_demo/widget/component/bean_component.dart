@@ -3,10 +3,10 @@ import 'package:diagram_editor_apps/simple_demo/custom_data.dart';
 import 'package:diagram_editor_apps/simple_demo/edit_dialog.dart';
 import 'package:flutter/material.dart';
 
-class CrystalBody extends StatelessWidget {
+class BeanBody extends StatelessWidget {
   final ComponentData componentData;
 
-  const CrystalBody({
+  const BeanBody({
     Key key,
     this.componentData,
   }) : super(key: key);
@@ -20,10 +20,10 @@ class CrystalBody extends StatelessWidget {
         showEditComponentDialog(context, componentData);
       },
       child: CustomPaint(
-        painter: CrystalPainter(
+        painter: BeanPainter(
           color: customData.color,
           borderColor:
-              customData.isHighlightVisible ? Colors.teal : Colors.grey[300],
+              customData.isHighlightVisible ? Colors.teal : Colors.black,
           borderWidth: 2.0,
         ),
         child: Center(
@@ -34,13 +34,13 @@ class CrystalBody extends StatelessWidget {
   }
 }
 
-class CrystalPainter extends CustomPainter {
+class BeanPainter extends CustomPainter {
   final Color color;
   final Color borderColor;
   final double borderWidth;
   Size componentSize;
 
-  CrystalPainter({
+  BeanPainter({
     this.color = Colors.grey,
     this.borderColor = Colors.black,
     this.borderWidth = 1.0,
@@ -76,10 +76,33 @@ class CrystalPainter extends CustomPainter {
 
   Path componentPath() {
     Path path = Path();
-    path.moveTo(0, componentSize.height / 2);
-    path.lineTo(componentSize.width / 2, 0);
-    path.lineTo(componentSize.width, componentSize.height / 2);
-    path.lineTo(componentSize.width / 2, componentSize.height);
+    path.moveTo(componentSize.width / 5, 0);
+    path.lineTo(4 * componentSize.width / 5, 0);
+    path.quadraticBezierTo(
+      componentSize.width,
+      componentSize.height / 6,
+      componentSize.width,
+      componentSize.height / 2,
+    );
+    path.quadraticBezierTo(
+      componentSize.width,
+      5 * componentSize.height / 6,
+      4 * componentSize.width / 5,
+      componentSize.height,
+    );
+    path.lineTo(componentSize.width / 5, componentSize.height);
+    path.quadraticBezierTo(
+      0,
+      5 * componentSize.height / 6,
+      0,
+      componentSize.height / 2,
+    );
+    path.quadraticBezierTo(
+      0,
+      componentSize.height / 6,
+      componentSize.width / 5,
+      0,
+    );
     path.close();
     return path;
   }

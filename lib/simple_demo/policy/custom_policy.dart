@@ -1,7 +1,19 @@
 import 'package:diagram_editor/diagram_editor.dart';
 
 mixin CustomStatePolicy implements PolicySet {
-  List<String> bodies = ['rect', 'oval', 'crystal'];
+  List<String> bodies = [
+    'rect',
+    'round_rect',
+    'oval',
+    'crystal',
+    'rhomboid',
+    'bean',
+    'bean_left',
+    'bean_right',
+    'document',
+    'hexagon_horizontal',
+    'hexagon_vertical',
+  ];
 
   String selectedComponentId;
 

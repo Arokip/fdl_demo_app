@@ -55,8 +55,8 @@ mixin MyComponentPolicy implements ComponentPolicy, CustomStatePolicy {
     );
 
     var link = canvasReader.model.getLink(linkId);
-    link.startLabel = linkId.substring(0, 5);
-    link.endLabel = linkId.substring(0, 5);
+    link.startLabel = linkId.substring(0, 4);
+    link.endLabel = linkId.substring(0, 4);
 
     return true;
   }

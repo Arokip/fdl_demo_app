@@ -3,10 +3,10 @@ import 'package:diagram_editor_apps/simple_demo/custom_data.dart';
 import 'package:diagram_editor_apps/simple_demo/edit_dialog.dart';
 import 'package:flutter/material.dart';
 
-class OvalWidgetBody extends StatelessWidget {
+class OvalBody extends StatelessWidget {
   final ComponentData componentData;
 
-  const OvalWidgetBody({
+  const OvalBody({
     Key key,
     this.componentData,
   }) : super(key: key);

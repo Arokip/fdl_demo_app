@@ -15,17 +15,6 @@ mixin MyLinkAttachmentPolicy implements LinkAttachmentPolicy {
     );
 
     switch (componentData.type) {
-      case 'rect':
-        Offset pointAlignment;
-        if (pointPosition.dx.abs() >= pointPosition.dy.abs()) {
-          pointAlignment = Offset(pointPosition.dx / pointPosition.dx.abs(),
-              pointPosition.dy / pointPosition.dx.abs());
-        } else {
-          pointAlignment = Offset(pointPosition.dx / pointPosition.dy.abs(),
-              pointPosition.dy / pointPosition.dy.abs());
-        }
-        return Alignment(pointAlignment.dx, pointAlignment.dy);
-        break;
       case 'oval':
         Offset pointAlignment = pointPosition / pointPosition.distance;
 
@@ -37,8 +26,17 @@ mixin MyLinkAttachmentPolicy implements LinkAttachmentPolicy {
 
         return Alignment(pointAlignment.dx, pointAlignment.dy);
         break;
+
       default:
-        return Alignment.center;
+        Offset pointAlignment;
+        if (pointPosition.dx.abs() >= pointPosition.dy.abs()) {
+          pointAlignment = Offset(pointPosition.dx / pointPosition.dx.abs(),
+              pointPosition.dy / pointPosition.dx.abs());
+        } else {
+          pointAlignment = Offset(pointPosition.dx / pointPosition.dy.abs(),
+              pointPosition.dy / pointPosition.dy.abs());
+        }
+        return Alignment(pointAlignment.dx, pointAlignment.dy);
         break;
     }
   }
