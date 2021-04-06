@@ -16,6 +16,9 @@ class _SimpleDemoEditorState extends State<SimpleDemoEditor> {
   MyPolicySet myPolicySet = MyPolicySet();
   MiniMapPolicySet miniMapPolicySet = MiniMapPolicySet();
 
+  bool isMiniMapVisible = true;
+  bool isMenuVisible = true;
+
   @override
   void initState() {
     diagramEditorContext = DiagramEditorContext(
@@ -53,17 +56,45 @@ class _SimpleDemoEditorState extends State<SimpleDemoEditor> {
               Positioned(
                 right: 16,
                 top: 16,
-                width: 320,
-                height: 240,
-                child: Container(
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                    color: Colors.black,
-                    width: 2,
-                  )),
-                  child: DiagramEditor(
-                    diagramEditorContext: diagramEditorContextMiniMap,
-                  ),
+                // width: 320,
+                // height: 240,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Visibility(
+                      visible: isMiniMapVisible,
+                      child: Container(
+                        width: 320,
+                        height: 240,
+                        child: Container(
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                            color: Colors.black,
+                            width: 2,
+                          )),
+                          child: DiagramEditor(
+                            diagramEditorContext: diagramEditorContextMiniMap,
+                          ),
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          isMiniMapVisible = !isMiniMapVisible;
+                        });
+                      },
+                      child: Container(
+                        color: Colors.grey[300],
+                        child: Padding(
+                          padding: EdgeInsets.all(4),
+                          child: Text(isMiniMapVisible
+                              ? 'hide minimap'
+                              : 'show minimap'),
+                        ),
+                      ),
+                    )
+                  ],
                 ),
               ),
               Container(
@@ -88,11 +119,36 @@ class _SimpleDemoEditorState extends State<SimpleDemoEditor> {
               ),
               Align(
                 alignment: Alignment.centerLeft,
-                child: Container(
-                  color: Colors.grey.withOpacity(0.5),
-                  width: 120,
-                  height: 320,
-                  child: DraggableMenu(myPolicySet: myPolicySet),
+                child: Row(
+                  children: [
+                    Visibility(
+                      visible: isMenuVisible,
+                      child: Container(
+                        color: Colors.grey.withOpacity(0.5),
+                        width: 120,
+                        height: 320,
+                        child: DraggableMenu(myPolicySet: myPolicySet),
+                      ),
+                    ),
+                    RotatedBox(
+                      quarterTurns: 1,
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            isMenuVisible = !isMenuVisible;
+                          });
+                        },
+                        child: Container(
+                          color: Colors.grey[300],
+                          child: Padding(
+                            padding: EdgeInsets.all(4),
+                            child:
+                                Text(isMenuVisible ? 'hide menu' : 'show menu'),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               Positioned(
