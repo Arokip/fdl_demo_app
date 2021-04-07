@@ -1,11 +1,12 @@
 import 'package:diagram_editor/diagram_editor.dart';
 import 'package:diagram_editor_apps/simple_demo/widget/component/base_component_body.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class RectBody extends StatelessWidget {
+class NoCornerRectBody extends StatelessWidget {
   final ComponentData componentData;
 
-  const RectBody({
+  const NoCornerRectBody({
     Key key,
     @required this.componentData,
   }) : super(key: key);
@@ -14,7 +15,7 @@ class RectBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseComponentBody(
       componentData: componentData,
-      componentPainter: RectPainter(
+      componentPainter: NoCornerRectPainter(
         color: componentData.data.color,
         borderColor: componentData.data.borderColor,
         borderWidth: 2.0,
@@ -23,13 +24,13 @@ class RectBody extends StatelessWidget {
   }
 }
 
-class RectPainter extends CustomPainter {
+class NoCornerRectPainter extends CustomPainter {
   final Color color;
   final Color borderColor;
   final double borderWidth;
   Size componentSize;
 
-  RectPainter({
+  NoCornerRectPainter({
     this.color = Colors.grey,
     this.borderColor = Colors.black,
     this.borderWidth = 1.0,
@@ -65,10 +66,14 @@ class RectPainter extends CustomPainter {
 
   Path componentPath() {
     Path path = Path();
-    path.moveTo(0, 0);
-    path.lineTo(componentSize.width, 0);
-    path.lineTo(componentSize.width, componentSize.height);
-    path.lineTo(0, componentSize.height);
+    path.moveTo(componentSize.width / 8, 0);
+    path.lineTo(7 * componentSize.width / 8, 0);
+    path.lineTo(componentSize.width, componentSize.height / 8);
+    path.lineTo(componentSize.width, 7 * componentSize.height / 8);
+    path.lineTo(7 * componentSize.width / 8, componentSize.height);
+    path.lineTo(componentSize.width / 8, componentSize.height);
+    path.lineTo(0, 7 * componentSize.height / 8);
+    path.lineTo(0, componentSize.height / 8);
     path.close();
     return path;
   }

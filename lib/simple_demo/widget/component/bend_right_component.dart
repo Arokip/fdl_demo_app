@@ -1,6 +1,7 @@
 import 'package:diagram_editor/diagram_editor.dart';
 import 'package:diagram_editor_apps/simple_demo/custom_component_data.dart';
 import 'package:diagram_editor_apps/simple_demo/edit_dialog.dart';
+import 'package:diagram_editor_apps/simple_demo/widget/component/base_component_body.dart';
 import 'package:flutter/material.dart';
 
 class BendRightBody extends StatelessWidget {
@@ -13,21 +14,12 @@ class BendRightBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final MyComponentData customData = componentData.data;
-
-    return GestureDetector(
-      onLongPress: () {
-        showEditComponentDialog(context, componentData);
-      },
-      child: CustomPaint(
-        painter: BendRightPainter(
-          color: customData.color,
-          borderColor: customData.borderColor,
-          borderWidth: 2.0,
-        ),
-        child: Center(
-          child: Text(customData.text),
-        ),
+    return BaseComponentBody(
+      componentData: componentData,
+      componentPainter: BendRightPainter(
+        color: componentData.data.color,
+        borderColor: componentData.data.borderColor,
+        borderWidth: 2.0,
       ),
     );
   }

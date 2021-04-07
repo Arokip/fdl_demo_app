@@ -1,6 +1,5 @@
 import 'package:diagram_editor/diagram_editor.dart';
-import 'package:diagram_editor_apps/simple_demo/custom_component_data.dart';
-import 'package:diagram_editor_apps/simple_demo/edit_dialog.dart';
+import 'package:diagram_editor_apps/simple_demo/widget/component/base_component_body.dart';
 import 'package:flutter/material.dart';
 
 class OvalBody extends StatelessWidget {
@@ -8,34 +7,72 @@ class OvalBody extends StatelessWidget {
 
   const OvalBody({
     Key key,
-    this.componentData,
+    @required this.componentData,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final MyComponentData customData = componentData.data;
+    return BaseComponentBody(
+      componentData: componentData,
+      componentPainter: OvalPainter(
+        color: componentData.data.color,
+        borderColor: componentData.data.borderColor,
+        borderWidth: 2.0,
+      ),
+    );
+  }
+}
 
-    return LayoutBuilder(builder: (context, size) {
-      return GestureDetector(
-        onLongPress: () {
-          showEditComponentDialog(context, componentData);
-        },
-        child: Container(
-          decoration: BoxDecoration(
-            color: customData.color,
-            borderRadius: BorderRadius.all(
-              Radius.elliptical(size.maxWidth, size.maxHeight),
-            ),
-            border: Border.all(
-              width: 2.0,
-              color: customData.borderColor,
-            ),
-          ),
-          child: Center(
-            child: Text(customData.text),
-          ),
-        ),
-      );
-    });
+class OvalPainter extends CustomPainter {
+  final Color color;
+  final Color borderColor;
+  final double borderWidth;
+  Size componentSize;
+
+  OvalPainter({
+    this.color = Colors.grey,
+    this.borderColor = Colors.black,
+    this.borderWidth = 1.0,
+  });
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    var paint = Paint()
+      ..color = color
+      ..style = PaintingStyle.fill;
+    componentSize = size;
+
+    Path path = componentPath();
+
+    canvas.drawPath(path, paint);
+
+    paint
+      ..style = PaintingStyle.stroke
+      ..color = borderColor
+      ..strokeWidth = borderWidth;
+
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) => true;
+
+  @override
+  bool hitTest(Offset position) {
+    Path path = componentPath();
+    return path.contains(position);
+  }
+
+  Path componentPath() {
+    Path path = Path();
+    path.addOval(
+      Rect.fromLTWH(
+        0,
+        0,
+        componentSize.width,
+        componentSize.height,
+      ),
+    );
+    return path;
   }
 }

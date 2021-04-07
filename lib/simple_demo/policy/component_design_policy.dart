@@ -8,6 +8,7 @@ import 'package:diagram_editor_apps/simple_demo/widget/component/crystal_compone
 import 'package:diagram_editor_apps/simple_demo/widget/component/document_component.dart';
 import 'package:diagram_editor_apps/simple_demo/widget/component/hexagon_horizontal_component.dart';
 import 'package:diagram_editor_apps/simple_demo/widget/component/hexagon_vertical_component.dart';
+import 'package:diagram_editor_apps/simple_demo/widget/component/no_corner_rect_component.dart';
 import 'package:diagram_editor_apps/simple_demo/widget/component/oval_component.dart';
 import 'package:diagram_editor_apps/simple_demo/widget/component/rect_component.dart';
 import 'package:diagram_editor_apps/simple_demo/widget/component/rhomboid_component.dart';
@@ -59,6 +60,9 @@ mixin MyComponentDesignPolicy implements ComponentDesignPolicy {
         break;
       case 'bend_right':
         return BendRightBody(componentData: componentData);
+        break;
+      case 'no_corner_rect':
+        return NoCornerRectBody(componentData: componentData);
         break;
       default:
         return null;

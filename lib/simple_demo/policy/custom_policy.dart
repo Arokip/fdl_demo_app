@@ -15,6 +15,7 @@ mixin CustomStatePolicy implements PolicySet {
     'hexagon_vertical',
     'bend_left',
     'bend_right',
+    'no_corner_rect',
   ];
 
   String selectedComponentId;
