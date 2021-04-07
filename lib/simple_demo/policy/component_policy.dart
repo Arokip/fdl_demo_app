@@ -50,9 +50,8 @@ mixin MyComponentPolicy implements ComponentPolicy, CustomStatePolicy {
         cmp.connections.forEach((connection) {
           if (connection is ConnectionOut &&
               multipleSelected.contains(connection.otherComponentId)) {
-            canvasReader.model
-                .getLink(connection.connectionId)
-                .moveAllMiddlePoints(positionDelta);
+            canvasWriter.model.moveAllLinkMiddlePoints(
+                connection.connectionId, positionDelta);
           }
         });
       });
