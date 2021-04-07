@@ -1,6 +1,10 @@
 import 'package:diagram_editor/diagram_editor.dart';
+import 'package:diagram_editor_apps/simple_demo/custom_component_data.dart';
+import 'package:flutter/material.dart';
 
 mixin CustomStatePolicy implements PolicySet {
+  bool isGridVisible = true;
+
   List<String> bodies = [
     'rect',
     'round_rect',
@@ -20,6 +24,7 @@ mixin CustomStatePolicy implements PolicySet {
 
   String selectedComponentId;
 
+  bool isMultipleSelectionOn = false;
   List<String> multipleSelected = [];
 
   hideAllHighlights() {
@@ -37,6 +42,48 @@ mixin CustomStatePolicy implements PolicySet {
     canvasReader.model.getComponent(componentId).data.showHighlight();
     canvasReader.model.getComponent(componentId).updateComponent();
   }
+
+  hideComponentHighlight(String componentId) {
+    canvasReader.model.getComponent(componentId).data.hideHighlight();
+    canvasReader.model.getComponent(componentId).updateComponent();
+  }
+
+  turnOnMultipleSelection() {
+    isMultipleSelectionOn = true;
+
+    if (selectedComponentId != null) {
+      addComponentToMultipleSelection(selectedComponentId);
+      selectedComponentId = null;
+    }
+  }
+
+  turnOffMultipleSelection() {
+    isMultipleSelectionOn = false;
+    multipleSelected = [];
+    hideAllHighlights();
+  }
+
+  addComponentToMultipleSelection(String componentId) {
+    if (!multipleSelected.contains(componentId)) {
+      multipleSelected.add(componentId);
+    }
+  }
+
+  removeComponentFromMultipleSelection(String componentId) {
+    multipleSelected.remove(componentId);
+  }
+
+  String duplicate(ComponentData componentData) {
+    var cd = ComponentData(
+      type: componentData.type,
+      size: componentData.size,
+      minSize: componentData.minSize,
+      data: MyComponentData.copy(componentData.data),
+      position: componentData.position + Offset(20, 20),
+    );
+    String id = canvasWriter.model.addComponent(cd);
+    return id;
+  }
 }
 
 mixin CustomBehaviourPolicy implements PolicySet, CustomStatePolicy {
@@ -46,5 +93,36 @@ mixin CustomBehaviourPolicy implements PolicySet, CustomStatePolicy {
 
   resetView() {
     canvasWriter.state.resetCanvasView();
+  }
+
+  removeSelected() {
+    multipleSelected.forEach((compId) {
+      canvasWriter.model.removeComponent(compId);
+    });
+    multipleSelected = [];
+  }
+
+  duplicateSelected() {
+    List<String> duplicated = [];
+    multipleSelected.forEach((componentId) {
+      String newId = duplicate(canvasReader.model.getComponent(componentId));
+      duplicated.add(newId);
+    });
+    hideAllHighlights();
+    multipleSelected = [];
+    duplicated.forEach((componentId) {
+      addComponentToMultipleSelection(componentId);
+      highlightComponent(componentId);
+      canvasWriter.model.moveComponentToTheFront(componentId);
+    });
+  }
+
+  selectAll() {
+    var components = canvasReader.model.canvasModel.components.keys;
+
+    components.forEach((componentId) {
+      addComponentToMultipleSelection(componentId);
+      highlightComponent(componentId);
+    });
   }
 }

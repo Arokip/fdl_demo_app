@@ -1,5 +1,6 @@
 import 'package:diagram_editor_apps/port_demo/editor.dart';
 import 'package:diagram_editor_apps/simple_demo/widget/editor.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
@@ -8,7 +9,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      showPerformanceOverlay: false,
+      showPerformanceOverlay: !kIsWeb,
       title: 'Diagram editor',
       initialRoute: '/simple_demo',
       routes: {
@@ -29,6 +30,10 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Text('Examples of usage of Flutter diagram_editor library.'),
+              SizedBox(height: 16),
+              SelectableText('https://github.com/Arokip/fdl'),
+              SizedBox(height: 16),
               ElevatedButton(
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Colors.blue),

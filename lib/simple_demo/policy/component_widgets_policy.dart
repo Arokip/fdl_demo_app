@@ -17,9 +17,11 @@ mixin MyComponentWidgetsPolicy
       visible: componentData.data.isHighlightVisible,
       child: Stack(
         children: [
-          componentTopOptions(componentData, context),
-          componentBottomOptions(componentData),
-          highlight(componentData),
+          if (!isMultipleSelectionOn)
+            componentTopOptions(componentData, context),
+          if (!isMultipleSelectionOn) componentBottomOptions(componentData),
+          highlight(
+              componentData, isMultipleSelectionOn ? Colors.cyan : Colors.red),
           resizeCorner(componentData),
         ],
       ),
@@ -48,15 +50,11 @@ mixin MyComponentWidgetsPolicy
             tooltip: 'duplicate',
             size: 40,
             onPressed: () {
-              var cd = ComponentData(
-                type: componentData.type,
-                size: componentData.size,
-                minSize: componentData.minSize,
-                data: MyComponentData.copy(componentData.data),
-                position: componentData.position + Offset(20, 20),
-              );
-              String id = canvasWriter.model.addComponent(cd);
-              canvasWriter.model.moveComponentToTheFront(id);
+              String newId = duplicate(componentData);
+              canvasWriter.model.moveComponentToTheFront(newId);
+              selectedComponentId = newId;
+              hideComponentHighlight(componentData.id);
+              highlightComponent(newId);
             },
           ),
           SizedBox(width: 12),
@@ -129,7 +127,7 @@ mixin MyComponentWidgetsPolicy
     );
   }
 
-  Widget highlight(ComponentData componentData) {
+  Widget highlight(ComponentData componentData, Color color) {
     return Positioned(
       left: canvasReader.state
           .toCanvasCoordinates(componentData.position - Offset(2, 2))
@@ -141,6 +139,7 @@ mixin MyComponentWidgetsPolicy
         painter: ComponentHighlightPainter(
           width: (componentData.size.width + 4) * canvasReader.state.scale,
           height: (componentData.size.height + 4) * canvasReader.state.scale,
+          color: color,
         ),
       ),
     );

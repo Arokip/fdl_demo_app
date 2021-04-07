@@ -9,6 +9,8 @@ mixin MyCanvasPolicy implements CanvasPolicy, CustomStatePolicy {
   onCanvasTap() {
     selectedComponentId = null;
 
+    multipleSelected = [];
+
     hideAllHighlights();
   }
 

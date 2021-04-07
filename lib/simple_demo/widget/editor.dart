@@ -98,6 +98,7 @@ class _SimpleDemoEditorState extends State<SimpleDemoEditor> {
                 child: Padding(
                   padding: EdgeInsets.all(24),
                   child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       OptionIcon(
                         color: Colors.grey.withOpacity(0.7),
@@ -114,19 +115,93 @@ class _SimpleDemoEditorState extends State<SimpleDemoEditor> {
                       Visibility(
                         visible: isOptionsVisible,
                         child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             OptionIcon(
+                              tooltip: 'reset view',
                               color: Colors.grey.withOpacity(0.7),
                               iconData: Icons.replay,
                               onPressed: () => myPolicySet.resetView(),
                             ),
                             SizedBox(width: 8),
                             OptionIcon(
+                              tooltip: 'delete all',
                               color: Colors.grey.withOpacity(0.7),
                               iconData: Icons.delete_forever,
                               onPressed: () => myPolicySet.removeAll(),
                             ),
                             SizedBox(width: 8),
+                            OptionIcon(
+                              tooltip: myPolicySet.isGridVisible
+                                  ? 'hide grid'
+                                  : 'show grid',
+                              color: Colors.grey.withOpacity(0.7),
+                              iconData: myPolicySet.isGridVisible
+                                  ? Icons.grid_off
+                                  : Icons.grid_on,
+                              onPressed: () {
+                                setState(() {
+                                  myPolicySet.isGridVisible =
+                                      !myPolicySet.isGridVisible;
+                                });
+                              },
+                            ),
+                            SizedBox(width: 8),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Visibility(
+                                  visible: myPolicySet.isMultipleSelectionOn,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      OptionIcon(
+                                        tooltip: 'select all',
+                                        color: Colors.grey.withOpacity(0.7),
+                                        iconData: Icons.all_inclusive,
+                                        onPressed: () =>
+                                            myPolicySet.selectAll(),
+                                      ),
+                                      SizedBox(height: 8),
+                                      OptionIcon(
+                                        tooltip: 'duplicate selected',
+                                        color: Colors.grey.withOpacity(0.7),
+                                        iconData: Icons.copy,
+                                        onPressed: () =>
+                                            myPolicySet.duplicateSelected(),
+                                      ),
+                                      SizedBox(height: 8),
+                                      OptionIcon(
+                                        tooltip: 'remove selected',
+                                        color: Colors.grey.withOpacity(0.7),
+                                        iconData: Icons.delete,
+                                        onPressed: () =>
+                                            myPolicySet.removeSelected(),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(height: 8),
+                                OptionIcon(
+                                  tooltip: myPolicySet.isMultipleSelectionOn
+                                      ? 'cancel multiselection'
+                                      : 'enable multiselection',
+                                  color: Colors.grey.withOpacity(0.7),
+                                  iconData: myPolicySet.isMultipleSelectionOn
+                                      ? Icons.group_work
+                                      : Icons.group_work_outlined,
+                                  onPressed: () {
+                                    setState(() {
+                                      if (myPolicySet.isMultipleSelectionOn) {
+                                        myPolicySet.turnOffMultipleSelection();
+                                      } else {
+                                        myPolicySet.turnOnMultipleSelection();
+                                      }
+                                    });
+                                  },
+                                ),
+                              ],
+                            ),
                           ],
                         ),
                       ),

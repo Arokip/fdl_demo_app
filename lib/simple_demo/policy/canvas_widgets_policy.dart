@@ -8,15 +8,19 @@ mixin MyCanvasWidgetsPolicy implements CanvasWidgetsPolicy, CustomStatePolicy {
   @override
   List<Widget> showCustomWidgetsOnCanvasBackground(BuildContext context) {
     return [
-      CustomPaint(
-        size: Size.infinite,
-        painter: GridPainter(
-          offset: canvasReader.state.position / canvasReader.state.scale,
-          scale: canvasReader.state.scale,
-          lineWidth:
-              (canvasReader.state.scale < 1.0) ? canvasReader.state.scale : 1.0,
-          matchParentSize: false,
-          lineColor: Colors.blue[900],
+      Visibility(
+        visible: isGridVisible,
+        child: CustomPaint(
+          size: Size.infinite,
+          painter: GridPainter(
+            offset: canvasReader.state.position / canvasReader.state.scale,
+            scale: canvasReader.state.scale,
+            lineWidth: (canvasReader.state.scale < 1.0)
+                ? canvasReader.state.scale
+                : 1.0,
+            matchParentSize: false,
+            lineColor: Colors.blue[900],
+          ),
         ),
       ),
       DragTarget<ComponentData>(
