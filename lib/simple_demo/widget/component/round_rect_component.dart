@@ -1,5 +1,5 @@
 import 'package:diagram_editor/diagram_editor.dart';
-import 'package:diagram_editor_apps/simple_demo/custom_data.dart';
+import 'package:diagram_editor_apps/simple_demo/custom_component_data.dart';
 import 'package:diagram_editor_apps/simple_demo/edit_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +14,7 @@ class RoundRectBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final CustomData customData = componentData.data;
+    final MyComponentData customData = componentData.data;
 
     return GestureDetector(
       onLongPress: () {

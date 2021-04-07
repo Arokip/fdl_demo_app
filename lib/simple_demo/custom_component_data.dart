@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 
-class CustomData {
+class MyComponentData {
   Color color;
   Color borderColor;
 
   String text;
   bool isHighlightVisible = false;
 
-  CustomData({
+  MyComponentData({
     this.color,
     this.borderColor = Colors.black,
     this.text,
   });
 
-  CustomData.copy(CustomData customData)
+  MyComponentData.copy(MyComponentData customData)
       : this(
           color: customData.color,
           borderColor: customData.borderColor,

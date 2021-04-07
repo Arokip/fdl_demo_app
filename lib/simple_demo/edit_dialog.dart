@@ -1,11 +1,11 @@
 import 'package:diagram_editor/diagram_editor.dart';
-import 'package:diagram_editor_apps/simple_demo/custom_data.dart';
+import 'package:diagram_editor_apps/simple_demo/custom_component_data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 void showEditComponentDialog(
     BuildContext context, ComponentData componentData) {
-  CustomData customData = componentData.data;
+  MyComponentData customData = componentData.data;
 
   final textController = TextEditingController(text: customData.text ?? '');
 
@@ -68,7 +68,7 @@ void showEditComponentDialog(
 }
 
 void showPickColorDialog(BuildContext context, ComponentData componentData) {
-  CustomData customData = componentData.data;
+  MyComponentData customData = componentData.data;
 
   Color currentColor =
       customData.color == null ? Colors.white : customData.color;
