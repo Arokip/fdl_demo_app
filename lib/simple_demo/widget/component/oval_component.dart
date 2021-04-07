@@ -28,7 +28,7 @@ class OvalBody extends StatelessWidget {
             ),
             border: Border.all(
               width: 2.0,
-              color: customData.isHighlightVisible ? Colors.pink : Colors.black,
+              color: customData.borderColor,
             ),
           ),
           child: Center(

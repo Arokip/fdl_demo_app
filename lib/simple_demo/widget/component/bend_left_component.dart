@@ -22,8 +22,7 @@ class BendLeftBody extends StatelessWidget {
       child: CustomPaint(
         painter: BendLeftPainter(
           color: customData.color,
-          borderColor:
-              customData.isHighlightVisible ? Colors.teal : Colors.black,
+          borderColor: customData.borderColor,
           borderWidth: 2.0,
         ),
         child: Center(

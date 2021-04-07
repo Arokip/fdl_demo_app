@@ -22,8 +22,7 @@ class HexagonVerticalBody extends StatelessWidget {
       child: CustomPaint(
         painter: HexagonVerticalPainter(
           color: customData.color,
-          borderColor:
-              customData.isHighlightVisible ? Colors.teal : Colors.grey[300],
+          borderColor: customData.borderColor,
           borderWidth: 2.0,
         ),
         child: Center(

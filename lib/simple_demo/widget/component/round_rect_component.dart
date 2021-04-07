@@ -26,7 +26,7 @@ class RoundRectBody extends StatelessWidget {
           borderRadius: BorderRadius.all(Radius.circular(16)),
           border: Border.all(
             width: 2.0,
-            color: customData.isHighlightVisible ? Colors.pink : Colors.black,
+            color: customData.borderColor,
           ),
         ),
         child: Center(child: Text(customData.text)),

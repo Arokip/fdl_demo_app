@@ -35,18 +35,15 @@ mixin MyComponentWidgetsPolicy
       child: Row(
         children: [
           OptionIcon(
-            color: Colors.red,
-            iconData: Icons.delete_forever,
-            tooltip: 'delete',
+            color: Colors.grey.withOpacity(0.7),
+            iconData: Icons.edit,
+            tooltip: 'edit',
             size: 40,
-            onPressed: () {
-              canvasWriter.model.removeComponentWithChildren(componentData.id);
-              selectedComponentId = null;
-            },
+            onPressed: () => showEditComponentDialog(context, componentData),
           ),
           SizedBox(width: 12),
           OptionIcon(
-            color: Colors.yellow,
+            color: Colors.grey.withOpacity(0.7),
             iconData: Icons.copy,
             tooltip: 'duplicate',
             size: 40,
@@ -64,7 +61,7 @@ mixin MyComponentWidgetsPolicy
           ),
           SizedBox(width: 12),
           OptionIcon(
-            color: Colors.lightGreen,
+            color: Colors.grey.withOpacity(0.7),
             iconData: Icons.color_lens,
             tooltip: 'random color',
             size: 40,
@@ -77,7 +74,7 @@ mixin MyComponentWidgetsPolicy
           ),
           SizedBox(width: 12),
           OptionIcon(
-            color: Colors.greenAccent,
+            color: Colors.grey.withOpacity(0.7),
             iconData: Icons.link_off,
             tooltip: 'remove links',
             size: 40,
@@ -86,11 +83,14 @@ mixin MyComponentWidgetsPolicy
           ),
           SizedBox(width: 12),
           OptionIcon(
-            color: Colors.blueGrey,
-            iconData: Icons.edit,
-            tooltip: 'edit',
+            color: Colors.grey.withOpacity(0.7),
+            iconData: Icons.delete_forever,
+            tooltip: 'delete',
             size: 40,
-            onPressed: () => showEditComponentDialog(context, componentData),
+            onPressed: () {
+              canvasWriter.model.removeComponentWithChildren(componentData.id);
+              selectedComponentId = null;
+            },
           ),
         ],
       ),
@@ -131,12 +131,16 @@ mixin MyComponentWidgetsPolicy
 
   Widget highlight(ComponentData componentData) {
     return Positioned(
-      left: canvasReader.state.toCanvasCoordinates(componentData.position).dx,
-      top: canvasReader.state.toCanvasCoordinates(componentData.position).dy,
+      left: canvasReader.state
+          .toCanvasCoordinates(componentData.position - Offset(2, 2))
+          .dx,
+      top: canvasReader.state
+          .toCanvasCoordinates(componentData.position - Offset(2, 2))
+          .dy,
       child: CustomPaint(
         painter: ComponentHighlightPainter(
-          width: componentData.size.width * canvasReader.state.scale,
-          height: componentData.size.height * canvasReader.state.scale,
+          width: (componentData.size.width + 4) * canvasReader.state.scale,
+          height: (componentData.size.height + 4) * canvasReader.state.scale,
         ),
       ),
     );
