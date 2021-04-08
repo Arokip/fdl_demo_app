@@ -1,12 +1,10 @@
 import 'package:diagram_editor/diagram_editor.dart';
+import 'package:diagram_editor_apps/simple_demo/data/custom_link_data.dart';
 import 'package:diagram_editor_apps/simple_demo/dialog/pick_color_dialog.dart';
 import 'package:flutter/material.dart';
 
 void showEditLinkDialog(BuildContext context, LinkData linkData) {
-  // MyLinkData customData = linkData.data;
-  // LinkStyle linkStyle = linkData.linkStyle;
-
-  // TODO: change labels
+  MyLinkData customData = linkData.data;
 
   Color color = linkData.linkStyle.color;
   LineType lineTypeDropdown = linkData.linkStyle.lineType;
@@ -20,6 +18,11 @@ void showEditLinkDialog(BuildContext context, LinkData linkData) {
   double maxLineWidth = 10;
   double minLineWidth = 0.1;
   double widthDelta = 0.1;
+
+  final startLabelController =
+      TextEditingController(text: customData.startLabel ?? '');
+  final endLabelController =
+      TextEditingController(text: customData.endLabel ?? '');
 
   showDialog(
     barrierDismissible: false,
@@ -232,6 +235,25 @@ void showEditLinkDialog(BuildContext context, LinkData linkData) {
                     ),
                   ],
                 ),
+                SizedBox(height: 8),
+                TextField(
+                  controller: startLabelController,
+                  maxLines: 1,
+                  decoration: InputDecoration(
+                    labelText: 'Start label',
+                    fillColor: Colors.white,
+                    contentPadding: EdgeInsets.only(left: 13),
+                  ),
+                ),
+                TextField(
+                  controller: endLabelController,
+                  maxLines: 1,
+                  decoration: InputDecoration(
+                    labelText: 'End label',
+                    fillColor: Colors.white,
+                    contentPadding: EdgeInsets.only(left: 13),
+                  ),
+                ),
               ],
             ),
             scrollable: true,
@@ -249,7 +271,8 @@ void showEditLinkDialog(BuildContext context, LinkData linkData) {
                   linkData.linkStyle.arrowType = arrowTypeDropdown;
                   linkData.linkStyle.arrowSize = arrowSizePick;
                   linkData.linkStyle.lineWidth = lineWidthPick;
-
+                  customData.startLabel = startLabelController.text;
+                  customData.endLabel = endLabelController.text;
                   linkData.updateLink();
                   Navigator.of(context).pop();
                 },

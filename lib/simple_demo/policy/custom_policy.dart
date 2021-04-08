@@ -33,7 +33,7 @@ mixin CustomStatePolicy implements PolicySet {
 
   hideAllHighlights() {
     canvasWriter.model.hideAllLinkJoints();
-    canvasWriter.model.hideAllLinkDeleteIcons();
+    canvasWriter.model.hideAllTapLinkWidgets();
     canvasReader.model.getAllComponents().values.forEach((component) {
       if (component.data.isHighlightVisible) {
         component.data.hideHighlight();

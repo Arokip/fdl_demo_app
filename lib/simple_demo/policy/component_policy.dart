@@ -39,7 +39,7 @@ mixin MyComponentPolicy implements ComponentPolicy, CustomStatePolicy {
   onComponentScaleStart(componentId, details) {
     lastFocalPoint = details.localFocalPoint;
 
-    canvasWriter.model.hideAllLinkDeleteIcons();
+    canvasWriter.model.hideAllTapLinkWidgets();
 
     if (isMultipleSelectionOn) {
       addComponentToMultipleSelection(componentId);
@@ -79,7 +79,7 @@ mixin MyComponentPolicy implements ComponentPolicy, CustomStatePolicy {
       return false;
     }
 
-    String linkId = canvasWriter.model.connectTwoComponents(
+    canvasWriter.model.connectTwoComponents(
       sourceComponentId: sourceComponentId,
       targetComponentId: targetComponentId,
       linkStyle: LinkStyle(
@@ -88,10 +88,6 @@ mixin MyComponentPolicy implements ComponentPolicy, CustomStatePolicy {
       ),
       data: MyLinkData(),
     );
-
-    var link = canvasReader.model.getLink(linkId);
-    link.data.startLabel = linkId.substring(0, 4);
-    link.data.endLabel = linkId.substring(0, 4);
 
     return true;
   }

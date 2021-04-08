@@ -10,7 +10,7 @@ mixin MyCanvasPolicy implements CanvasPolicy, CustomStatePolicy {
     selectedComponentId = null;
 
     canvasWriter.model.hideAllLinkJoints();
-    canvasWriter.model.hideAllLinkDeleteIcons();
+    canvasWriter.model.hideAllTapLinkWidgets();
     selectedLinkId = null;
     hideAllHighlights();
   }
