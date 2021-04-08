@@ -3,6 +3,8 @@ import 'package:diagram_editor_apps/simple_demo/widget/editor.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
+final navigatorKey = GlobalKey<NavigatorState>();
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -10,6 +12,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       showPerformanceOverlay: !kIsWeb,
+      navigatorKey: navigatorKey,
       title: 'Diagram editor',
       initialRoute: '/simple_demo',
       routes: {

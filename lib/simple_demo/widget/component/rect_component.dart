@@ -17,7 +17,7 @@ class RectBody extends StatelessWidget {
       componentPainter: RectPainter(
         color: componentData.data.color,
         borderColor: componentData.data.borderColor,
-        borderWidth: 2.0,
+        borderWidth: componentData.data.borderWidth,
       ),
     );
   }
@@ -46,12 +46,16 @@ class RectPainter extends CustomPainter {
 
     canvas.drawPath(path, paint);
 
-    paint
-      ..style = PaintingStyle.stroke
-      ..color = borderColor
-      ..strokeWidth = borderWidth;
+    if (borderWidth > 0) {
+      if (borderWidth > 0) {
+        paint
+          ..style = PaintingStyle.stroke
+          ..color = borderColor
+          ..strokeWidth = borderWidth;
 
-    canvas.drawPath(path, paint);
+        canvas.drawPath(path, paint);
+      }
+    }
   }
 
   @override

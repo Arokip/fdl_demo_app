@@ -1,7 +1,6 @@
 import 'package:diagram_editor/diagram_editor.dart';
-import 'package:diagram_editor_apps/simple_demo/custom_component_data.dart';
+import 'package:diagram_editor_apps/simple_demo/data/custom_component_data.dart';
 import 'package:diagram_editor_apps/simple_demo/policy/custom_policy.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 mixin MyCanvasWidgetsPolicy implements CanvasWidgetsPolicy, CustomStatePolicy {

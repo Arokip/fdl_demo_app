@@ -1,5 +1,5 @@
 import 'package:diagram_editor/diagram_editor.dart';
-import 'package:diagram_editor_apps/simple_demo/custom_component_data.dart';
+import 'package:diagram_editor_apps/simple_demo/data/custom_component_data.dart';
 import 'package:diagram_editor_apps/simple_demo/policy/my_policy_set.dart';
 import 'package:flutter/material.dart';
 
@@ -28,7 +28,9 @@ class DraggableMenu extends StatelessWidget {
                       minSize: Size(80, 64),
                       data: MyComponentData(
                         color: Colors.white,
-                        text: 'custom text',
+                        borderColor: Colors.black,
+                        borderWidth: 2.0,
+                        // text: 'custom text',
                       ),
                       type: componentType,
                     ),

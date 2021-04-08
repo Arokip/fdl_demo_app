@@ -1,8 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:diagram_editor/diagram_editor.dart';
-import 'package:diagram_editor_apps/simple_demo/custom_component_data.dart';
-import 'package:diagram_editor_apps/simple_demo/edit_dialog.dart';
+import 'package:diagram_editor_apps/simple_demo/dialog/edit_component_dialog.dart';
 import 'package:diagram_editor_apps/simple_demo/policy/custom_policy.dart';
 import 'package:diagram_editor_apps/simple_demo/widget/option_icon.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +21,7 @@ mixin MyComponentWidgetsPolicy
           if (!isMultipleSelectionOn) componentBottomOptions(componentData),
           highlight(
               componentData, isMultipleSelectionOn ? Colors.cyan : Colors.red),
-          resizeCorner(componentData),
+          if (!isMultipleSelectionOn) resizeCorner(componentData),
         ],
       ),
     );

@@ -1,6 +1,5 @@
 import 'package:diagram_editor/diagram_editor.dart';
 import 'package:diagram_editor_apps/simple_demo/widget/component/base_component_body.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class RoundRectBody extends StatelessWidget {
@@ -18,7 +17,7 @@ class RoundRectBody extends StatelessWidget {
       componentPainter: RoundRectPainter(
         color: componentData.data.color,
         borderColor: componentData.data.borderColor,
-        borderWidth: 2.0,
+        borderWidth: componentData.data.borderWidth,
       ),
     );
   }
@@ -47,12 +46,14 @@ class RoundRectPainter extends CustomPainter {
 
     canvas.drawPath(path, paint);
 
-    paint
-      ..style = PaintingStyle.stroke
-      ..color = borderColor
-      ..strokeWidth = borderWidth;
+    if (borderWidth > 0) {
+      paint
+        ..style = PaintingStyle.stroke
+        ..color = borderColor
+        ..strokeWidth = borderWidth;
 
-    canvas.drawPath(path, paint);
+      canvas.drawPath(path, paint);
+    }
   }
 
   @override

@@ -17,7 +17,7 @@ class BeanBody extends StatelessWidget {
       componentPainter: BeanPainter(
         color: componentData.data.color,
         borderColor: componentData.data.borderColor,
-        borderWidth: 2.0,
+        borderWidth: componentData.data.borderWidth,
       ),
     );
   }
@@ -46,12 +46,14 @@ class BeanPainter extends CustomPainter {
 
     canvas.drawPath(path, paint);
 
-    paint
-      ..style = PaintingStyle.stroke
-      ..color = borderColor
-      ..strokeWidth = borderWidth;
+    if (borderWidth > 0) {
+      paint
+        ..style = PaintingStyle.stroke
+        ..color = borderColor
+        ..strokeWidth = borderWidth;
 
-    canvas.drawPath(path, paint);
+      canvas.drawPath(path, paint);
+    }
   }
 
   @override

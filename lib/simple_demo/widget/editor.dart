@@ -19,7 +19,7 @@ class _SimpleDemoEditorState extends State<SimpleDemoEditor> {
 
   bool isMiniMapVisible = true;
   bool isMenuVisible = true;
-  bool isOptionsVisible = false;
+  bool isOptionsVisible = true;
 
   @override
   void initState() {
@@ -209,8 +209,10 @@ class _SimpleDemoEditorState extends State<SimpleDemoEditor> {
                   ),
                 ),
               ),
-              Align(
-                alignment: Alignment.centerLeft,
+              Positioned(
+                top: 0,
+                left: 0,
+                bottom: 0,
                 child: Row(
                   children: [
                     Visibility(
