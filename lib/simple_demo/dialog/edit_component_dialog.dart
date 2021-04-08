@@ -146,6 +146,7 @@ void showEditComponentDialog(
                               color: Colors.blue,
                               shape: BoxShape.circle,
                             ),
+                            width: 32,
                             height: 32,
                             child: Center(child: Icon(Icons.add, size: 16))),
                       ),
