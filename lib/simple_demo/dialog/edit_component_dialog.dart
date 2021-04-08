@@ -11,9 +11,9 @@ void showEditComponentDialog(
   Color borderColor = customData.borderColor;
 
   double borderWidthPick = customData.borderWidth;
-  double maxBorderWidth = 20;
+  double maxBorderWidth = 40;
   double minBorderWidth = 0;
-  double borderWidthDelta = 0.5;
+  double borderWidthDelta = 0.1;
 
   final textController = TextEditingController(text: customData.text ?? '');
 
@@ -25,6 +25,7 @@ void showEditComponentDialog(
       return StatefulBuilder(builder: (context, setState) {
         return AlertDialog(
           content: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(width: 600),
               Text('Edit component', style: TextStyle(fontSize: 20)),
@@ -86,55 +87,69 @@ void showEditComponentDialog(
                 ],
               ),
               SizedBox(height: 8),
-              Row(
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Arrow size:'),
-                  SizedBox(width: 16),
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        borderWidthPick -= borderWidthDelta;
-                        if (borderWidthPick > maxBorderWidth) {
-                          borderWidthPick = maxBorderWidth;
-                        } else if (borderWidthPick < minBorderWidth) {
-                          borderWidthPick = minBorderWidth;
-                        }
-                      });
-                    },
-                    child: Container(
-                        color: Colors.blue,
-                        width: 20,
-                        height: 20,
-                        child: Center(child: Icon(Icons.remove, size: 12))),
-                  ),
-                  Container(
-                    width: 50,
-                    child: Center(
-                      child: TextField(
-                        textAlign: TextAlign.center,
-                        maxLines: 1,
-                        readOnly: true,
-                        controller: TextEditingController(
-                            text: borderWidthPick.toStringAsFixed(1)),
+                  Text('Border width:'),
+                  Row(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            borderWidthPick -= borderWidthDelta;
+                            if (borderWidthPick > maxBorderWidth) {
+                              borderWidthPick = maxBorderWidth;
+                            } else if (borderWidthPick < minBorderWidth) {
+                              borderWidthPick = minBorderWidth;
+                            }
+                          });
+                        },
+                        child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.blue,
+                              shape: BoxShape.circle,
+                            ),
+                            width: 32,
+                            height: 32,
+                            child: Center(child: Icon(Icons.remove, size: 16))),
                       ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        borderWidthPick += borderWidthDelta;
-                        if (borderWidthPick > maxBorderWidth) {
-                          borderWidthPick = maxBorderWidth;
-                        } else if (borderWidthPick < minBorderWidth) {
-                          borderWidthPick = minBorderWidth;
-                        }
-                      });
-                    },
-                    child: Container(
-                        color: Colors.blue,
-                        width: 20,
-                        height: 20,
-                        child: Center(child: Icon(Icons.add, size: 12))),
+                      Column(
+                        children: [
+                          Text(
+                              '${double.parse(borderWidthPick.toStringAsFixed(1))}'),
+                          Slider(
+                            value: borderWidthPick,
+                            onChanged: (double newValue) {
+                              setState(() {
+                                borderWidthPick =
+                                    double.parse(newValue.toStringAsFixed(1));
+                              });
+                            },
+                            min: minBorderWidth,
+                            max: maxBorderWidth,
+                          ),
+                        ],
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            borderWidthPick += borderWidthDelta;
+                            if (borderWidthPick > maxBorderWidth) {
+                              borderWidthPick = maxBorderWidth;
+                            } else if (borderWidthPick < minBorderWidth) {
+                              borderWidthPick = minBorderWidth;
+                            }
+                          });
+                        },
+                        child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.blue,
+                              shape: BoxShape.circle,
+                            ),
+                            height: 32,
+                            child: Center(child: Icon(Icons.add, size: 16))),
+                      ),
+                    ],
                   ),
                 ],
               ),

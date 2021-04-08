@@ -1,5 +1,3 @@
-import 'dart:math' as math;
-
 import 'package:diagram_editor/diagram_editor.dart';
 import 'package:diagram_editor_apps/simple_demo/dialog/edit_component_dialog.dart';
 import 'package:diagram_editor_apps/simple_demo/policy/custom_policy.dart';
@@ -12,16 +10,17 @@ mixin MyComponentWidgetsPolicy
   @override
   Widget showCustomWidgetWithComponentDataOver(
       BuildContext context, ComponentData componentData) {
+    bool showOptions = (!isMultipleSelectionOn) && (!isReadyToConnect);
+
     return Visibility(
       visible: componentData.data.isHighlightVisible,
       child: Stack(
         children: [
-          if (!isMultipleSelectionOn)
-            componentTopOptions(componentData, context),
-          if (!isMultipleSelectionOn) componentBottomOptions(componentData),
+          if (showOptions) componentTopOptions(componentData, context),
+          if (showOptions) componentBottomOptions(componentData),
           highlight(
               componentData, isMultipleSelectionOn ? Colors.cyan : Colors.red),
-          if (!isMultipleSelectionOn) resizeCorner(componentData),
+          if (showOptions) resizeCorner(componentData),
         ],
       ),
     );
@@ -37,10 +36,13 @@ mixin MyComponentWidgetsPolicy
         children: [
           OptionIcon(
             color: Colors.grey.withOpacity(0.7),
-            iconData: Icons.edit,
-            tooltip: 'edit',
+            iconData: Icons.delete_forever,
+            tooltip: 'delete',
             size: 40,
-            onPressed: () => showEditComponentDialog(context, componentData),
+            onPressed: () {
+              canvasWriter.model.removeComponentWithChildren(componentData.id);
+              selectedComponentId = null;
+            },
           ),
           SizedBox(width: 12),
           OptionIcon(
@@ -59,15 +61,10 @@ mixin MyComponentWidgetsPolicy
           SizedBox(width: 12),
           OptionIcon(
             color: Colors.grey.withOpacity(0.7),
-            iconData: Icons.color_lens,
-            tooltip: 'random color',
+            iconData: Icons.edit,
+            tooltip: 'edit',
             size: 40,
-            onPressed: () {
-              componentData.data.color =
-                  Color((math.Random().nextDouble() * 0xFFFFFF).toInt())
-                      .withOpacity(1.0);
-              componentData.updateComponent();
-            },
+            onPressed: () => showEditComponentDialog(context, componentData),
           ),
           SizedBox(width: 12),
           OptionIcon(
@@ -77,17 +74,6 @@ mixin MyComponentWidgetsPolicy
             size: 40,
             onPressed: () =>
                 canvasWriter.model.removeComponentConnections(componentData.id),
-          ),
-          SizedBox(width: 12),
-          OptionIcon(
-            color: Colors.grey.withOpacity(0.7),
-            iconData: Icons.delete_forever,
-            tooltip: 'delete',
-            size: 40,
-            onPressed: () {
-              canvasWriter.model.removeComponentWithChildren(componentData.id);
-              selectedComponentId = null;
-            },
           ),
         ],
       ),
@@ -120,6 +106,17 @@ mixin MyComponentWidgetsPolicy
             shape: BoxShape.rectangle,
             onPressed: () =>
                 canvasWriter.model.moveComponentToTheBack(componentData.id),
+          ),
+          SizedBox(width: 12),
+          OptionIcon(
+            color: Colors.grey.withOpacity(0.7),
+            iconData: Icons.arrow_forward,
+            tooltip: 'connect',
+            size: 40,
+            onPressed: () {
+              isReadyToConnect = true;
+              componentData.updateComponent();
+            },
           ),
         ],
       ),

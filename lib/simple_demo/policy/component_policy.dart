@@ -16,13 +16,19 @@ mixin MyComponentPolicy implements ComponentPolicy, CustomStatePolicy {
     } else {
       hideAllHighlights();
 
-      bool connected = connectComponents(selectedComponentId, componentId);
-      if (connected) {
-        print('connected');
-        selectedComponentId = null;
+      if (isReadyToConnect) {
+        isReadyToConnect = false;
+        bool connected = connectComponents(selectedComponentId, componentId);
+        if (connected) {
+          print('connected');
+          selectedComponentId = null;
+        } else {
+          print('not connected');
+          selectedComponentId = componentId;
+          highlightComponent(componentId);
+        }
       } else {
         selectedComponentId = componentId;
-
         highlightComponent(componentId);
       }
     }

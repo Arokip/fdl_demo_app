@@ -1,5 +1,4 @@
 import 'package:diagram_editor/diagram_editor.dart';
-import 'package:diagram_editor_apps/simple_demo/data/custom_link_data.dart';
 import 'package:diagram_editor_apps/simple_demo/dialog/pick_color_dialog.dart';
 import 'package:flutter/material.dart';
 
@@ -31,158 +30,179 @@ void showEditLinkDialog(BuildContext context, LinkData linkData) {
         builder: (context, setState) {
           return AlertDialog(
             content: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(width: 600),
                 Text('Edit link style', style: TextStyle(fontSize: 20)),
                 SizedBox(height: 16),
-                Row(
-                  children: [
-                    Text('Line type:'),
-                    SizedBox(width: 16),
-                    Container(
-                      child: DropdownButton<LineType>(
-                        value: lineTypeDropdown,
-                        onChanged: (LineType newValue) {
-                          setState(() {
-                            lineTypeDropdown = newValue;
-                          });
-                        },
-                        items: LineType.values.map((LineType lineType) {
-                          return DropdownMenuItem<LineType>(
-                            value: lineType,
-                            child: Text(lineType.toString()),
-                          );
-                        }).toList(),
-                      ),
-                    ),
-                  ],
+                Container(
+                  child: DropdownButton<LineType>(
+                    value: lineTypeDropdown,
+                    onChanged: (LineType newValue) {
+                      setState(() {
+                        lineTypeDropdown = newValue;
+                      });
+                    },
+                    items: LineType.values.map((LineType lineType) {
+                      return DropdownMenuItem<LineType>(
+                        value: lineType,
+                        child: Text(lineType.toString()),
+                      );
+                    }).toList(),
+                  ),
                 ),
                 SizedBox(height: 8),
-                Row(
-                  children: [
-                    Text('Arrow type:'),
-                    SizedBox(width: 16),
-                    Container(
-                      child: DropdownButton<ArrowType>(
-                        value: arrowTypeDropdown,
-                        onChanged: (ArrowType newValue) {
-                          setState(() {
-                            arrowTypeDropdown = newValue;
-                          });
-                        },
-                        items: ArrowType.values.map((ArrowType arrowType) {
-                          return DropdownMenuItem<ArrowType>(
-                            value: arrowType,
-                            child: Text('$arrowType'),
-                          );
-                        }).toList(),
-                      ),
-                    ),
-                  ],
+                Container(
+                  child: DropdownButton<ArrowType>(
+                    value: arrowTypeDropdown,
+                    onChanged: (ArrowType newValue) {
+                      setState(() {
+                        arrowTypeDropdown = newValue;
+                      });
+                    },
+                    items: ArrowType.values.map((ArrowType arrowType) {
+                      return DropdownMenuItem<ArrowType>(
+                        value: arrowType,
+                        child: Text('$arrowType'),
+                      );
+                    }).toList(),
+                  ),
                 ),
                 SizedBox(height: 8),
-                Row(
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text('Arrow size:'),
-                    SizedBox(width: 16),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          arrowSizePick -= arrowSizeDelta;
-                          if (arrowSizePick > maxArrowSize) {
-                            arrowSizePick = maxArrowSize;
-                          } else if (arrowSizePick < minArrowSize) {
-                            arrowSizePick = minArrowSize;
-                          }
-                        });
-                      },
-                      child: Container(
-                          color: Colors.blue,
-                          width: 20,
-                          height: 20,
-                          child: Center(child: Icon(Icons.remove, size: 12))),
-                    ),
-                    Container(
-                      width: 50,
-                      child: Center(
-                        child: TextField(
-                          textAlign: TextAlign.center,
-                          maxLines: 1,
-                          readOnly: true,
-                          controller: TextEditingController(
-                              text: arrowSizePick.toStringAsFixed(1)),
+                    Row(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              arrowSizePick -= arrowSizeDelta;
+                              if (arrowSizePick > maxArrowSize) {
+                                arrowSizePick = maxArrowSize;
+                              } else if (arrowSizePick < minArrowSize) {
+                                arrowSizePick = minArrowSize;
+                              }
+                            });
+                          },
+                          child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.blue,
+                                shape: BoxShape.circle,
+                              ),
+                              width: 32,
+                              height: 32,
+                              child:
+                                  Center(child: Icon(Icons.remove, size: 12))),
                         ),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          arrowSizePick += arrowSizeDelta;
-                          if (arrowSizePick > maxArrowSize) {
-                            arrowSizePick = maxArrowSize;
-                          } else if (arrowSizePick < minArrowSize) {
-                            arrowSizePick = minArrowSize;
-                          }
-                        });
-                      },
-                      child: Container(
-                          color: Colors.blue,
-                          width: 20,
-                          height: 20,
-                          child: Center(child: Icon(Icons.add, size: 12))),
+                        Column(
+                          children: [
+                            Text(
+                                '${double.parse(arrowSizePick.toStringAsFixed(1))}'),
+                            Slider(
+                              value: arrowSizePick,
+                              onChanged: (double newValue) {
+                                setState(() {
+                                  arrowSizePick =
+                                      double.parse(newValue.toStringAsFixed(1));
+                                });
+                              },
+                              min: minArrowSize,
+                              max: maxArrowSize,
+                            ),
+                          ],
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              arrowSizePick += arrowSizeDelta;
+                              if (arrowSizePick > maxArrowSize) {
+                                arrowSizePick = maxArrowSize;
+                              } else if (arrowSizePick < minArrowSize) {
+                                arrowSizePick = minArrowSize;
+                              }
+                            });
+                          },
+                          child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.blue,
+                                shape: BoxShape.circle,
+                              ),
+                              width: 32,
+                              height: 32,
+                              child: Center(child: Icon(Icons.add, size: 12))),
+                        ),
+                      ],
                     ),
                   ],
                 ),
                 SizedBox(height: 8),
-                Row(
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text('Line width:'),
-                    SizedBox(width: 16),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          lineWidthPick -= widthDelta;
-                          if (lineWidthPick > maxLineWidth) {
-                            lineWidthPick = maxLineWidth;
-                          } else if (lineWidthPick < minLineWidth) {
-                            lineWidthPick = minLineWidth;
-                          }
-                        });
-                      },
-                      child: Container(
-                          color: Colors.blue,
-                          width: 20,
-                          height: 20,
-                          child: Center(child: Icon(Icons.remove, size: 12))),
-                    ),
-                    Container(
-                      width: 50,
-                      child: Center(
-                        child: TextField(
-                          textAlign: TextAlign.center,
-                          maxLines: 1,
-                          readOnly: true,
-                          controller: TextEditingController(
-                              text: lineWidthPick.toStringAsFixed(1)),
+                    Row(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              lineWidthPick -= widthDelta;
+                              if (lineWidthPick > maxLineWidth) {
+                                lineWidthPick = maxLineWidth;
+                              } else if (lineWidthPick < minLineWidth) {
+                                lineWidthPick = minLineWidth;
+                              }
+                            });
+                          },
+                          child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.blue,
+                                shape: BoxShape.circle,
+                              ),
+                              width: 32,
+                              height: 32,
+                              child:
+                                  Center(child: Icon(Icons.remove, size: 12))),
                         ),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          lineWidthPick += widthDelta;
-                          if (lineWidthPick > maxLineWidth) {
-                            lineWidthPick = maxLineWidth;
-                          } else if (lineWidthPick < minLineWidth) {
-                            lineWidthPick = minLineWidth;
-                          }
-                        });
-                      },
-                      child: Container(
-                          color: Colors.blue,
-                          width: 20,
-                          height: 20,
-                          child: Center(child: Icon(Icons.add, size: 12))),
+                        Column(
+                          children: [
+                            Text(
+                                '${double.parse(lineWidthPick.toStringAsFixed(1))}'),
+                            Slider(
+                              value: lineWidthPick,
+                              onChanged: (double newValue) {
+                                setState(() {
+                                  lineWidthPick =
+                                      double.parse(newValue.toStringAsFixed(1));
+                                });
+                              },
+                              min: minLineWidth,
+                              max: maxLineWidth,
+                            ),
+                          ],
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              lineWidthPick += widthDelta;
+                              if (lineWidthPick > maxLineWidth) {
+                                lineWidthPick = maxLineWidth;
+                              } else if (lineWidthPick < minLineWidth) {
+                                lineWidthPick = minLineWidth;
+                              }
+                            });
+                          },
+                          child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.blue,
+                                shape: BoxShape.circle,
+                              ),
+                              width: 32,
+                              height: 32,
+                              child: Center(child: Icon(Icons.add, size: 12))),
+                        ),
+                      ],
                     ),
                   ],
                 ),

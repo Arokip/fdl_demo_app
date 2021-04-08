@@ -11,7 +11,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      showPerformanceOverlay: !kIsWeb,
+      // showPerformanceOverlay: !kIsWeb,
+      showPerformanceOverlay: false,
       navigatorKey: navigatorKey,
       title: 'Diagram editor',
       initialRoute: '/simple_demo',

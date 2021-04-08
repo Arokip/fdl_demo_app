@@ -29,6 +29,8 @@ mixin CustomStatePolicy implements PolicySet {
 
   Offset deleteLinkPos = Offset.zero;
 
+  bool isReadyToConnect = false;
+
   hideAllHighlights() {
     canvasWriter.model.hideAllLinkJoints();
     canvasWriter.model.hideAllLinkDeleteIcons();
@@ -52,6 +54,7 @@ mixin CustomStatePolicy implements PolicySet {
 
   turnOnMultipleSelection() {
     isMultipleSelectionOn = true;
+    isReadyToConnect = false;
 
     if (selectedComponentId != null) {
       addComponentToMultipleSelection(selectedComponentId);

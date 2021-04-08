@@ -18,9 +18,9 @@ class BaseComponentBody extends StatelessWidget {
     final MyComponentData customData = componentData.data;
 
     return GestureDetector(
-      onLongPress: () {
-        showEditComponentDialog(context, componentData);
-      },
+      // onLongPress: () {
+      //   showEditComponentDialog(context, componentData);
+      // },
       child: CustomPaint(
         painter: componentPainter,
         child: Center(
