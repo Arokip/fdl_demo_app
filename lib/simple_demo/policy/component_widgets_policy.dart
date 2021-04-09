@@ -107,10 +107,10 @@ mixin MyComponentWidgetsPolicy
             onPressed: () =>
                 canvasWriter.model.moveComponentToTheBack(componentData.id),
           ),
-          SizedBox(width: 12),
+          SizedBox(width: 40),
           OptionIcon(
             color: Colors.grey.withOpacity(0.7),
-            iconData: Icons.arrow_forward,
+            iconData: Icons.arrow_right_alt,
             tooltip: 'connect',
             size: 40,
             onPressed: () {

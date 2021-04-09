@@ -75,7 +75,9 @@ mixin MyComponentPolicy implements ComponentPolicy, CustomStatePolicy {
       return false;
     }
     if (canvasReader.model.getComponent(sourceComponentId).connections.any(
-        (connection) => connection.otherComponentId == targetComponentId)) {
+        (connection) =>
+            (connection is ConnectionOut) &&
+            (connection.otherComponentId == targetComponentId))) {
       return false;
     }
 
