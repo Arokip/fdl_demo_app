@@ -87,6 +87,7 @@ mixin MyComponentPolicy implements ComponentPolicy, CustomStatePolicy {
       linkStyle: LinkStyle(
         arrowType: ArrowType.pointedArrow,
         lineWidth: 1.5,
+        backArrowType: ArrowType.centerCircle,
       ),
       data: MyLinkData(),
     );
