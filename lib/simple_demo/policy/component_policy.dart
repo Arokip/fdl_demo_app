@@ -39,8 +39,8 @@ mixin MyComponentPolicy implements ComponentPolicy, CustomStatePolicy {
   onComponentScaleStart(componentId, details) {
     lastFocalPoint = details.localFocalPoint;
 
-    canvasWriter.model.hideAllTapLinkWidgets();
-
+    // canvasWriter.model.hideAllTapLinkWidgets();
+    hideLinkOption();
     if (isMultipleSelectionOn) {
       addComponentToMultipleSelection(componentId);
       highlightComponent(componentId);

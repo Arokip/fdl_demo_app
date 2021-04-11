@@ -8,6 +8,8 @@ import 'package:diagram_editor_apps/simple_demo/policy/custom_policy.dart';
 import 'package:diagram_editor_apps/simple_demo/policy/init_policy.dart';
 import 'package:diagram_editor_apps/simple_demo/policy/link_attachment_policy.dart';
 import 'package:diagram_editor_apps/simple_demo/policy/link_widgets_policy.dart';
+import 'package:diagram_editor_apps/simple_demo/policy/my_link_control_policy.dart';
+import 'package:diagram_editor_apps/simple_demo/policy/my_link_joint_control_policy.dart';
 
 class MyPolicySet extends PolicySet
     with
@@ -15,9 +17,8 @@ class MyPolicySet extends PolicySet
         MyCanvasPolicy,
         MyComponentPolicy,
         MyComponentDesignPolicy,
-        LinkControlPolicy,
-        LinkControlPolicy,
-        LinkJointControlPolicy,
+        MyLinkControlPolicy,
+        MyLinkJointControlPolicy,
         MyLinkWidgetsPolicy,
         MyLinkAttachmentPolicy,
         MyCanvasWidgetsPolicy,

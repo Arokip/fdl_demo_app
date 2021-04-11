@@ -32,9 +32,13 @@ mixin CustomStatePolicy implements PolicySet {
 
   bool isReadyToConnect = false;
 
+  bool isLinkOptionsVisible = false;
+  Offset tapLinkPosition = Offset.zero;
+
   hideAllHighlights() {
     canvasWriter.model.hideAllLinkJoints();
-    canvasWriter.model.hideAllTapLinkWidgets();
+    // canvasWriter.model.hideAllTapLinkWidgets();
+    hideLinkOption();
     canvasReader.model.getAllComponents().values.forEach((component) {
       if (component.data.isHighlightVisible) {
         component.data.hideHighlight();
@@ -89,6 +93,15 @@ mixin CustomStatePolicy implements PolicySet {
     );
     String id = canvasWriter.model.addComponent(cd);
     return id;
+  }
+
+  showLinkOption(Offset position) {
+    tapLinkPosition = position;
+    isLinkOptionsVisible = true;
+  }
+
+  hideLinkOption() {
+    isLinkOptionsVisible = false;
   }
 }
 

@@ -1,8 +1,9 @@
 import 'package:diagram_editor/diagram_editor.dart';
+import 'package:diagram_editor_apps/simple_demo/policy/custom_policy.dart';
 import 'package:diagram_editor_apps/simple_demo/dialog/edit_link_dialog.dart';
 import 'package:flutter/material.dart';
 
-mixin MyLinkWidgetsPolicy implements LinkWidgetsPolicy {
+mixin MyLinkWidgetsPolicy implements LinkWidgetsPolicy, CustomStatePolicy {
   @override
   List<Widget> showWidgetsWithLinkData(
       BuildContext context, LinkData linkData) {
@@ -31,7 +32,50 @@ mixin MyLinkWidgetsPolicy implements LinkWidgetsPolicy {
         linkData.data.endLabel,
         linkLabelSize,
       ),
+      if (isLinkOptionsVisible) showLinkOptions(context, linkData),
     ];
+  }
+
+  Widget showLinkOptions(BuildContext context, LinkData linkData) {
+    var nPos = canvasReader.state.toCanvasCoordinates(tapLinkPosition);
+    return Positioned(
+      left: nPos.dx,
+      top: nPos.dy,
+      child: Row(
+        children: [
+          GestureDetector(
+            onTap: () {
+              canvasWriter.model.removeLink(linkData.id);
+            },
+            child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.red.withOpacity(0.7),
+                  shape: BoxShape.circle,
+                ),
+                width: 32,
+                height: 32,
+                child: Center(child: Icon(Icons.close, size: 20))),
+          ),
+          SizedBox(width: 8),
+          GestureDetector(
+            onTap: () {
+              showEditLinkDialog(
+                context,
+                linkData,
+              );
+            },
+            child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.grey.withOpacity(0.7),
+                  shape: BoxShape.circle,
+                ),
+                width: 32,
+                height: 32,
+                child: Center(child: Icon(Icons.edit, size: 20))),
+          ),
+        ],
+      ),
+    );
   }
 
   Widget label(Offset position, String label, double size) {
