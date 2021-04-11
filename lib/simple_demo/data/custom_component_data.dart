@@ -11,7 +11,7 @@ class MyComponentData {
   MyComponentData({
     this.color = Colors.white,
     this.borderColor = Colors.black,
-    this.borderWidth = 1.0,
+    this.borderWidth = 0.0,
     this.text = '',
   });
 

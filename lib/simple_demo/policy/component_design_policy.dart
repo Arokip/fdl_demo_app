@@ -64,6 +64,9 @@ mixin MyComponentDesignPolicy implements ComponentDesignPolicy {
       case 'no_corner_rect':
         return NoCornerRectBody(componentData: componentData);
         break;
+      case 'junction':
+        return OvalBody(componentData: componentData);
+        break;
       default:
         return null;
         break;

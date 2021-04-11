@@ -6,6 +6,7 @@ mixin CustomStatePolicy implements PolicySet {
   bool isGridVisible = true;
 
   List<String> bodies = [
+    'junction',
     'rect',
     'round_rect',
     'oval',

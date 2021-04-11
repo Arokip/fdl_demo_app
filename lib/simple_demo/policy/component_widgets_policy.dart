@@ -2,6 +2,7 @@ import 'package:diagram_editor/diagram_editor.dart';
 import 'package:diagram_editor_apps/simple_demo/dialog/edit_component_dialog.dart';
 import 'package:diagram_editor_apps/simple_demo/policy/custom_policy.dart';
 import 'package:diagram_editor_apps/simple_demo/widget/option_icon.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -10,7 +11,9 @@ mixin MyComponentWidgetsPolicy
   @override
   Widget showCustomWidgetWithComponentDataOver(
       BuildContext context, ComponentData componentData) {
-    bool showOptions = (!isMultipleSelectionOn) && (!isReadyToConnect);
+    bool isJunction = componentData.type == 'junction';
+    bool showOptions =
+        (!isMultipleSelectionOn) && (!isReadyToConnect) && !isJunction;
 
     return Visibility(
       visible: componentData.data.isHighlightVisible,
@@ -21,6 +24,7 @@ mixin MyComponentWidgetsPolicy
           highlight(
               componentData, isMultipleSelectionOn ? Colors.cyan : Colors.red),
           if (showOptions) resizeCorner(componentData),
+          if (isJunction && !isReadyToConnect) junctionOptions(componentData),
         ],
       ),
     );
@@ -40,7 +44,7 @@ mixin MyComponentWidgetsPolicy
             tooltip: 'delete',
             size: 40,
             onPressed: () {
-              canvasWriter.model.removeComponentWithChildren(componentData.id);
+              canvasWriter.model.removeComponent(componentData.id);
               selectedComponentId = null;
             },
           ),
@@ -171,6 +175,40 @@ mixin MyComponentWidgetsPolicy
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget junctionOptions(ComponentData componentData) {
+    Offset componentPosition =
+        canvasReader.state.toCanvasCoordinates(componentData.position);
+    return Positioned(
+      left: componentPosition.dx - 24,
+      top: componentPosition.dy - 48,
+      child: Row(
+        children: [
+          OptionIcon(
+            color: Colors.grey.withOpacity(0.7),
+            iconData: Icons.delete_forever,
+            tooltip: 'delete',
+            size: 32,
+            onPressed: () {
+              canvasWriter.model.removeComponent(componentData.id);
+              selectedComponentId = null;
+            },
+          ),
+          SizedBox(width: 8),
+          OptionIcon(
+            color: Colors.grey.withOpacity(0.7),
+            iconData: Icons.arrow_right_alt,
+            tooltip: 'connect',
+            size: 32,
+            onPressed: () {
+              isReadyToConnect = true;
+              componentData.updateComponent();
+            },
+          ),
+        ],
       ),
     );
   }
