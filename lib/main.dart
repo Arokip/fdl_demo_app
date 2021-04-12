@@ -1,4 +1,4 @@
-import 'package:diagram_editor_apps/port_demo/editor.dart';
+import 'package:diagram_editor_apps/port_demo_old/editor.dart';
 import 'package:diagram_editor_apps/simple_demo/widget/editor.dart';
 import 'package:flutter/material.dart';
 

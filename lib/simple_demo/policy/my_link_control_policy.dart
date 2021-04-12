@@ -9,7 +9,7 @@ mixin MyLinkControlPolicy implements LinkPolicy, CustomStatePolicy {
     canvasWriter.model.hideAllLinkJoints();
     canvasWriter.model.showLinkJoints(linkId);
 
-    showLinkOption(
+    showLinkOption(linkId,
         canvasReader.state.fromCanvasCoordinates(details.localPosition));
   }
 

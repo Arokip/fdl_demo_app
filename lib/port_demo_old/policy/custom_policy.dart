@@ -1,5 +1,5 @@
 import 'package:diagram_editor/diagram_editor.dart';
-import 'package:diagram_editor_apps/port_demo/widget/port_body_widget.dart';
+import 'package:diagram_editor_apps/port_demo_old/widget/port_body_widget.dart';
 import 'package:flutter/material.dart';
 
 mixin CustomStatePolicy implements PolicySet {

@@ -32,7 +32,7 @@ mixin MyLinkWidgetsPolicy implements LinkWidgetsPolicy, CustomStatePolicy {
         linkData.data.endLabel,
         linkLabelSize,
       ),
-      if (isLinkOptionsVisible) showLinkOptions(context, linkData),
+      if (selectedLinkId == linkData.id) showLinkOptions(context, linkData),
     ];
   }
 
@@ -116,46 +116,46 @@ mixin MyLinkWidgetsPolicy implements LinkWidgetsPolicy, CustomStatePolicy {
             labelSize);
   }
 
-  @override
-  Widget showOnLinkTapWidget(
-      BuildContext context, LinkData linkData, Offset tapPosition) {
-    return Positioned(
-      left: tapPosition.dx,
-      top: tapPosition.dy,
-      child: Row(
-        children: [
-          GestureDetector(
-            onTap: () {
-              canvasWriter.model.removeLink(linkData.id);
-            },
-            child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.red.withOpacity(0.7),
-                  shape: BoxShape.circle,
-                ),
-                width: 32,
-                height: 32,
-                child: Center(child: Icon(Icons.close, size: 20))),
-          ),
-          SizedBox(width: 8),
-          GestureDetector(
-            onTap: () {
-              showEditLinkDialog(
-                context,
-                linkData,
-              );
-            },
-            child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.grey.withOpacity(0.7),
-                  shape: BoxShape.circle,
-                ),
-                width: 32,
-                height: 32,
-                child: Center(child: Icon(Icons.edit, size: 20))),
-          ),
-        ],
-      ),
-    );
-  }
+  // @override
+  // Widget showOnLinkTapWidget(
+  //     BuildContext context, LinkData linkData, Offset tapPosition) {
+  //   return Positioned(
+  //     left: tapPosition.dx,
+  //     top: tapPosition.dy,
+  //     child: Row(
+  //       children: [
+  //         GestureDetector(
+  //           onTap: () {
+  //             canvasWriter.model.removeLink(linkData.id);
+  //           },
+  //           child: Container(
+  //               decoration: BoxDecoration(
+  //                 color: Colors.red.withOpacity(0.7),
+  //                 shape: BoxShape.circle,
+  //               ),
+  //               width: 32,
+  //               height: 32,
+  //               child: Center(child: Icon(Icons.close, size: 20))),
+  //         ),
+  //         SizedBox(width: 8),
+  //         GestureDetector(
+  //           onTap: () {
+  //             showEditLinkDialog(
+  //               context,
+  //               linkData,
+  //             );
+  //           },
+  //           child: Container(
+  //               decoration: BoxDecoration(
+  //                 color: Colors.grey.withOpacity(0.7),
+  //                 shape: BoxShape.circle,
+  //               ),
+  //               width: 32,
+  //               height: 32,
+  //               child: Center(child: Icon(Icons.edit, size: 20))),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 }

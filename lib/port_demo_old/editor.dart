@@ -1,7 +1,7 @@
 import 'package:diagram_editor/diagram_editor.dart';
-import 'package:diagram_editor_apps/port_demo/policy/minimap_policy.dart';
-import 'package:diagram_editor_apps/port_demo/policy/my_policy_set.dart';
-import 'package:diagram_editor_apps/port_demo/widget/rect_widget_body.dart';
+import 'package:diagram_editor_apps/port_demo_old/policy/minimap_policy.dart';
+import 'package:diagram_editor_apps/port_demo_old/policy/my_policy_set.dart';
+import 'package:diagram_editor_apps/port_demo_old/widget/rect_widget_body.dart';
 import 'package:flutter/material.dart';
 
 class PortDemoEditor extends StatefulWidget {
