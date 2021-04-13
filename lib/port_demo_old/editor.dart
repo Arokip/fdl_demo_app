@@ -4,12 +4,12 @@ import 'package:diagram_editor_apps/port_demo_old/policy/my_policy_set.dart';
 import 'package:diagram_editor_apps/port_demo_old/widget/rect_widget_body.dart';
 import 'package:flutter/material.dart';
 
-class PortDemoEditor extends StatefulWidget {
+class PortDiagramEditor extends StatefulWidget {
   @override
-  _PortDemoEditorState createState() => _PortDemoEditorState();
+  _PortDiagramEditorState createState() => _PortDiagramEditorState();
 }
 
-class _PortDemoEditorState extends State<PortDemoEditor> {
+class _PortDiagramEditorState extends State<PortDiagramEditor> {
   DiagramEditorContext diagramEditorContext;
   DiagramEditorContext diagramEditorContextMiniMap;
 
