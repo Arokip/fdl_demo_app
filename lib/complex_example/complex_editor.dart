@@ -104,11 +104,11 @@ class MyPolicySet extends PolicySet
         MyCanvasPolicy,
         MyComponentPolicy,
         CustomPolicy,
+        MyLinkAttachmentPolicy,
         //
         CanvasControlPolicy,
         LinkControlPolicy,
-        LinkJointControlPolicy,
-        LinkAttachmentRectPolicy {}
+        LinkJointControlPolicy {}
 
 mixin MyInitPolicy implements InitPolicy {
   @override
@@ -121,13 +121,13 @@ mixin MyComponentDesignPolicy implements ComponentDesignPolicy, CustomPolicy {
   @override
   Widget showComponentBody(ComponentData componentData) {
     switch (componentData.type) {
-      case 'A':
+      case 'rainbow':
         return ComplexRainbowComponent(componentData: componentData);
         break;
-      case 'B':
+      case 'random':
         return RandomComponent(componentData: componentData);
         break;
-      case 'C':
+      case 'flutter':
         return Container(
           color: componentData.data.isHighlightVisible
               ? Colors.transparent
@@ -157,7 +157,7 @@ mixin MyCanvasPolicy implements CanvasPolicy, CustomPolicy {
         position:
             canvasReader.state.fromCanvasCoordinates(details.localPosition),
         data: MyComponentData(),
-        type: ['A', 'B', 'C'][math.Random().nextInt(3)],
+        type: ['rainbow', 'random', 'flutter'][math.Random().nextInt(3)],
       ),
     );
   }
@@ -253,5 +253,42 @@ mixin CustomPolicy implements PolicySet {
   deleteAllComponents() {
     selectedComponentId = null;
     canvasWriter.model.removeAllComponents();
+  }
+}
+
+mixin MyLinkAttachmentPolicy implements LinkAttachmentPolicy {
+  @override
+  Alignment getLinkEndpointAlignment(
+    ComponentData componentData,
+    Offset targetPoint,
+  ) {
+    Offset pointPosition = targetPoint -
+        (componentData.position + componentData.size.center(Offset.zero));
+    pointPosition = Offset(
+      pointPosition.dx / componentData.size.width,
+      pointPosition.dy / componentData.size.height,
+    );
+
+    switch (componentData.type) {
+      case 'random':
+        return Alignment.center;
+        break;
+
+      case 'flutter':
+        return Alignment(-0.54, 0);
+        break;
+
+      default:
+        Offset pointAlignment;
+        if (pointPosition.dx.abs() >= pointPosition.dy.abs()) {
+          pointAlignment = Offset(pointPosition.dx / pointPosition.dx.abs(),
+              pointPosition.dy / pointPosition.dx.abs());
+        } else {
+          pointAlignment = Offset(pointPosition.dx / pointPosition.dy.abs(),
+              pointPosition.dy / pointPosition.dy.abs());
+        }
+        return Alignment(pointAlignment.dx, pointAlignment.dy);
+        break;
+    }
   }
 }

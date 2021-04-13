@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 /// Attach to border, depends on shape
 mixin MyLinkAttachmentPolicy implements LinkAttachmentPolicy {
+  @override
   Alignment getLinkEndpointAlignment(
     ComponentData componentData,
     Offset targetPoint,
