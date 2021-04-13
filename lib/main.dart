@@ -1,5 +1,5 @@
 import 'package:diagram_editor_apps/complex_example/complex_editor.dart';
-import 'package:diagram_editor_apps/port_demo_old/editor.dart';
+import 'package:diagram_editor_apps/hierarchical_example/hierarchical_editor.dart';
 import 'package:diagram_editor_apps/ports_example/ports_editor.dart';
 import 'package:diagram_editor_apps/pub_example/pub_editor.dart';
 import 'package:diagram_editor_apps/simple_diagram_editor/widget/editor.dart';
@@ -138,7 +138,7 @@ class HierarchicalDemo extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: PubDiagramEditor(),
+        body: HierarchicalDiagramEditor(),
       ),
     );
   }
