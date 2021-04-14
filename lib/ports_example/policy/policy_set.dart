@@ -15,5 +15,4 @@ class MyPolicySet extends PolicySet
         //
         CanvasControlPolicy,
         LinkControlPolicy,
-        LinkJointControlPolicy,
-        LinkAttachmentOvalPolicy {}
+        LinkJointControlPolicy {}

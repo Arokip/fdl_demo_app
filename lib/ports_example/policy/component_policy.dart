@@ -36,7 +36,14 @@ mixin MyComponentPolicy implements ComponentPolicy, CustomPolicy {
   onComponentScaleUpdate(componentId, details) {
     Offset positionDelta = details.localFocalPoint - lastFocalPoint;
 
-    canvasWriter.model.moveComponentWithChildren(componentId, positionDelta);
+    var component = canvasReader.model.getComponent(componentId);
+
+    if (component.type == 'component') {
+      canvasWriter.model.moveComponentWithChildren(componentId, positionDelta);
+    } else if (component.type == 'port') {
+      canvasWriter.model
+          .moveComponentWithChildren(component.parentId, positionDelta);
+    }
 
     lastFocalPoint = details.localFocalPoint;
   }
@@ -52,7 +59,6 @@ mixin MyComponentPolicy implements ComponentPolicy, CustomPolicy {
       linkStyle: LinkStyle(
         arrowType: ArrowType.pointedArrow,
         lineWidth: 1.5,
-        backArrowType: ArrowType.centerCircle,
       ),
     );
 
