@@ -1,6 +1,7 @@
 # Example apps using Flutter [diagram_editor](https://pub.dev/packages/diagram_editor) library.
 
 Link to diagram_editor library codebase: https://github.com/Arokip/fdl
+
 Running apps: https://arokip.github.io/fdl_demo_app
 
 ## Examples
