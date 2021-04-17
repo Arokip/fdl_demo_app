@@ -1,14 +1,18 @@
+import 'dart:math' as math;
+
 import 'package:diagram_editor/diagram_editor.dart';
-import 'package:diagram_editor_apps/ports_example/policy/policy_set.dart';
-import 'package:diagram_editor_apps/ports_example/widget/port_switch.dart';
+import 'package:diagram_editor_apps/grid_example/policy/policy_set.dart';
+import 'package:diagram_editor_apps/grid_example/widget/snap_switch.dart';
 import 'package:flutter/material.dart';
 
-class PortsDiagramEditor extends StatefulWidget {
+void main() => runApp(GridDiagramEditor());
+
+class GridDiagramEditor extends StatefulWidget {
   @override
-  _PortsDiagramEditorState createState() => _PortsDiagramEditorState();
+  _GridDiagramEditorState createState() => _GridDiagramEditorState();
 }
 
-class _PortsDiagramEditorState extends State<PortsDiagramEditor> {
+class _GridDiagramEditorState extends State<GridDiagramEditor> {
   MyPolicySet myPolicySet = MyPolicySet();
 
   @override
@@ -27,20 +31,16 @@ class _PortsDiagramEditorState extends State<PortsDiagramEditor> {
                   ),
                 ),
               ),
-              Positioned(
-                top: 0,
-                left: 0,
-                child: GestureDetector(
-                  onTap: () => myPolicySet.deleteAllComponents(),
-                  child: Container(
-                    width: 80,
-                    height: 32,
-                    color: Colors.red,
-                    child: Center(child: Text('delete all')),
-                  ),
+              GestureDetector(
+                onTap: () => myPolicySet.deleteAllComponents(),
+                child: Container(
+                  width: 80,
+                  height: 32,
+                  color: Colors.red,
+                  child: Center(child: Text('delete all')),
                 ),
               ),
-              PortSwitch(policySet: myPolicySet),
+              SpanSwitch(policySet: myPolicySet),
               Positioned(
                 bottom: 8,
                 left: 8,

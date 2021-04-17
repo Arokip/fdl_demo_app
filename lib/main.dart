@@ -1,4 +1,5 @@
 import 'package:diagram_editor_apps/complex_example/complex_editor.dart';
+import 'package:diagram_editor_apps/grid_example/grid_editor.dart';
 import 'package:diagram_editor_apps/hierarchical_example/hierarchical_editor.dart';
 import 'package:diagram_editor_apps/ports_example/ports_editor.dart';
 import 'package:diagram_editor_apps/pub_example/pub_editor.dart';
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
         '/ports': (context) => PortDemo(),
         '/hierarchical': (context) => HierarchicalDemo(),
         '/complex': (context) => ComplexDemo(),
+        '/grid': (context) => GridDemo(),
       },
     );
   }
@@ -92,6 +94,16 @@ class HomeScreen extends StatelessWidget {
                   Navigator.pushNamed(context, '/complex');
                 },
               ),
+              SizedBox(height: 8),
+              ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.blue),
+                ),
+                child: Text('grid snapping example'),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/grid');
+                },
+              ),
             ],
           ),
         ),
@@ -150,6 +162,17 @@ class ComplexDemo extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         body: ComplexDiagramEditor(),
+      ),
+    );
+  }
+}
+
+class GridDemo extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Scaffold(
+        body: GridDiagramEditor(),
       ),
     );
   }

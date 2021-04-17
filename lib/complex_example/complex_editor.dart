@@ -32,17 +32,14 @@ class _ComplexDiagramEditorState extends State<ComplexDiagramEditor> {
               Container(color: Colors.grey),
               Padding(
                 padding: EdgeInsets.all(16),
-                child: Container(
-                  color: Colors.green,
-                  child: DiagramEditor(
-                    diagramEditorContext: diagramEditorContext,
-                  ),
+                child: DiagramEditor(
+                  diagramEditorContext: diagramEditorContext,
                 ),
               ),
               GestureDetector(
                 onTap: () => myPolicySet.deleteAllComponents(),
                 child: Container(
-                  width: 64,
+                  width: 80,
                   height: 32,
                   color: Colors.red,
                   child: Center(child: Text('delete all')),
