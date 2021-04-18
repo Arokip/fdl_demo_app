@@ -65,7 +65,7 @@ class _PubDiagramEditorState extends State<PubDiagramEditor> {
 
 // Custom component Data which you can assign to a component to data property.
 class MyComponentData {
-  bool isHighlightVisible;
+  bool isHighlightVisible = false;
   Color color =
       Color((math.Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0);
 
