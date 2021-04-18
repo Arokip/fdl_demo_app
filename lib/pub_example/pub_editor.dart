@@ -63,14 +63,11 @@ class _PubDiagramEditorState extends State<PubDiagramEditor> {
   }
 }
 
-// Custom component Data
-
+// Custom component Data which you can assign to a component to data property.
 class MyComponentData {
   bool isHighlightVisible;
   Color color =
       Color((math.Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0);
-
-  MyComponentData({this.isHighlightVisible = false});
 
   showHighlight() {
     isHighlightVisible = true;
@@ -81,8 +78,7 @@ class MyComponentData {
   }
 }
 
-// Policy set and individual policy implementations.
-
+// A set of policies compound of mixins. There are some custom policy implementations and some policies defined by diagram_editor library.
 class MyPolicySet extends PolicySet
     with
         MyInitPolicy,
@@ -96,6 +92,7 @@ class MyPolicySet extends PolicySet
         LinkJointControlPolicy,
         LinkAttachmentRectPolicy {}
 
+// A place where you can init the canvas or your diagram (eg. load an existing diagram).
 mixin MyInitPolicy implements InitPolicy {
   @override
   initializeDiagramEditor() {
@@ -103,17 +100,20 @@ mixin MyInitPolicy implements InitPolicy {
   }
 }
 
+// This is the place where you can design a component.
+// Use switch on componentData.type or componentData.data to define different component designs.
 mixin MyComponentDesignPolicy implements ComponentDesignPolicy {
   @override
   Widget showComponentBody(ComponentData componentData) {
     return Container(
       decoration: BoxDecoration(
-        color: componentData.data.color,
+        color: (componentData.data as MyComponentData).color,
         border: Border.all(
-            width: 2,
-            color: componentData.data.isHighlightVisible
-                ? Colors.pink
-                : Colors.black),
+          width: 2,
+          color: (componentData.data as MyComponentData).isHighlightVisible
+              ? Colors.pink
+              : Colors.black,
+        ),
       ),
       child: Center(child: Text('component')),
     );
@@ -124,7 +124,7 @@ mixin MyComponentDesignPolicy implements ComponentDesignPolicy {
 // Note that it also implements CustomPolicy where own variables and functions can be defined and used here.
 mixin MyCanvasPolicy implements CanvasPolicy, CustomPolicy {
   @override
-  onCanvasTapUp(TapUpDetails details) async {
+  onCanvasTapUp(TapUpDetails details) {
     canvasWriter.model.hideAllLinkJoints();
     if (selectedComponentId != null) {
       hideComponentHighlight(selectedComponentId);
@@ -141,8 +141,9 @@ mixin MyCanvasPolicy implements CanvasPolicy, CustomPolicy {
   }
 }
 
+// Mixin where component behaviour is defined. In this example it is the movement, highlight and connecting two components.
 mixin MyComponentPolicy implements ComponentPolicy, CustomPolicy {
-  // variable used to calculate delta offset
+  // variable used to calculate delta offset to move the component.
   Offset lastFocalPoint;
 
   @override
@@ -175,7 +176,7 @@ mixin MyComponentPolicy implements ComponentPolicy, CustomPolicy {
     lastFocalPoint = details.localFocalPoint;
   }
 
-  // tests if it's possible to connect the components and if yes, connects them
+  // This function tests if it's possible to connect the components and if yes, connects them
   bool connectComponents(String sourceComponentId, String targetComponentId) {
     if (sourceComponentId == null || targetComponentId == null) {
       return false;
@@ -192,7 +193,7 @@ mixin MyComponentPolicy implements ComponentPolicy, CustomPolicy {
       return false;
     }
 
-    // connects components (creates a link between), you can define the design of the link
+    // This connects two components (creates a link between), you can define the design of the link with LinkStyle.
     canvasWriter.model.connectTwoComponents(
       sourceComponentId: sourceComponentId,
       targetComponentId: targetComponentId,
@@ -207,7 +208,7 @@ mixin MyComponentPolicy implements ComponentPolicy, CustomPolicy {
   }
 }
 
-// You can create your own Policy to define own variables and functions.
+// You can create your own Policy to define own variables and functions with canvasReader and canvasWriter.
 mixin CustomPolicy implements PolicySet {
   String selectedComponentId;
 
