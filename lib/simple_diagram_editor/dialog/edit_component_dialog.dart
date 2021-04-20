@@ -17,6 +17,22 @@ void showEditComponentDialog(
 
   final textController = TextEditingController(text: customData.text ?? '');
 
+  Alignment textAlignmentDropdown = customData.textAlignment;
+  var alignmentValues = [
+    Alignment.topLeft,
+    Alignment.topCenter,
+    Alignment.topRight,
+    Alignment.centerLeft,
+    Alignment.center,
+    Alignment.centerRight,
+    Alignment.bottomLeft,
+    Alignment.bottomCenter,
+    Alignment.bottomRight,
+  ];
+  double textSizeDropdown = customData.textSize;
+  var textSizeValues =
+      List<double>.generate(20, (int index) => index * 2 + 10.0);
+
   showDialog(
     barrierDismissible: false,
     useSafeArea: true,
@@ -35,8 +51,47 @@ void showEditComponentDialog(
                 decoration: InputDecoration(
                   labelText: 'Text',
                   fillColor: Colors.white,
-                  contentPadding: EdgeInsets.only(left: 13),
                 ),
+              ),
+              SizedBox(height: 8),
+              Container(
+                child: DropdownButton<Alignment>(
+                  value: textAlignmentDropdown,
+                  onChanged: (Alignment newValue) {
+                    setState(() {
+                      textAlignmentDropdown = newValue;
+                    });
+                  },
+                  items: alignmentValues.map((Alignment alignment) {
+                    return DropdownMenuItem<Alignment>(
+                      value: alignment,
+                      child: Text('$alignment'),
+                    );
+                  }).toList(),
+                ),
+              ),
+              SizedBox(height: 8),
+              Row(
+                children: [
+                  Text('Font size:'),
+                  SizedBox(width: 8),
+                  Container(
+                    child: DropdownButton<double>(
+                      value: textSizeDropdown,
+                      onChanged: (double newValue) {
+                        setState(() {
+                          textSizeDropdown = newValue;
+                        });
+                      },
+                      items: textSizeValues.map((double textSize) {
+                        return DropdownMenuItem<double>(
+                          value: textSize,
+                          child: Text('${textSize.toStringAsFixed(0)}'),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                ],
               ),
               SizedBox(height: 16),
               Row(
@@ -167,6 +222,8 @@ void showEditComponentDialog(
             TextButton(
               onPressed: () {
                 customData.text = textController.text;
+                customData.textAlignment = textAlignmentDropdown;
+                customData.textSize = textSizeDropdown;
                 customData.color = color;
                 customData.borderColor = borderColor;
                 customData.borderWidth = borderWidthPick;

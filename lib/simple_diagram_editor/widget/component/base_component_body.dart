@@ -1,6 +1,5 @@
 import 'package:diagram_editor/diagram_editor.dart';
 import 'package:diagram_editor_apps/simple_diagram_editor/data/custom_component_data.dart';
-import 'package:diagram_editor_apps/simple_diagram_editor/dialog/edit_component_dialog.dart';
 import 'package:flutter/material.dart';
 
 class BaseComponentBody extends StatelessWidget {
@@ -18,13 +17,17 @@ class BaseComponentBody extends StatelessWidget {
     final MyComponentData customData = componentData.data;
 
     return GestureDetector(
-      // onLongPress: () {
-      //   showEditComponentDialog(context, componentData);
-      // },
       child: CustomPaint(
         painter: componentPainter,
-        child: Center(
-          child: Text(customData.text),
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 4),
+          child: Align(
+            alignment: customData.textAlignment,
+            child: Text(
+              customData.text,
+              style: TextStyle(fontSize: customData.textSize),
+            ),
+          ),
         ),
       ),
     );

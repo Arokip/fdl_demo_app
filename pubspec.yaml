@@ -23,7 +23,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  diagram_editor: ^0.0.6
+  diagram_editor: ^0.0.8
 #  diagram_editor:
 #    path: ../diagram_editor
 
