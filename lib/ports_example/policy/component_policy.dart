@@ -22,9 +22,11 @@ mixin MyComponentPolicy implements ComponentPolicy, CustomPolicy {
 
   @override
   onComponentLongPress(String componentId) {
-    // selectedComponentId = null;
-    canvasWriter.model.hideAllLinkJoints();
-    canvasWriter.model.removeComponent(componentId);
+    var component = canvasReader.model.getComponent(componentId);
+    if (component.type == 'component') {
+      canvasWriter.model.hideAllLinkJoints();
+      canvasWriter.model.removeComponentWithChildren(componentId);
+    }
   }
 
   @override
