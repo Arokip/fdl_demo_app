@@ -23,11 +23,12 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  diagram_editor: ^0.0.9
+  diagram_editor: ^0.0.10
 #  diagram_editor:
 #    path: ../diagram_editor
 
   flutter_colorpicker: ^0.3.5
+  url_launcher: ^6.0.9
 
 
   # The following adds the Cupertino Icons font to your application.

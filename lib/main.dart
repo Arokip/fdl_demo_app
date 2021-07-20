@@ -5,6 +5,7 @@ import 'package:diagram_editor_apps/ports_example/ports_editor.dart';
 import 'package:diagram_editor_apps/pub_example/pub_editor.dart';
 import 'package:diagram_editor_apps/simple_diagram_editor/widget/editor.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 void main() => runApp(MyApp());
 
@@ -30,6 +31,14 @@ class MyApp extends StatelessWidget {
 }
 
 class HomeScreen extends StatelessWidget {
+  _launchURL(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -40,9 +49,26 @@ class HomeScreen extends StatelessWidget {
             children: [
               Text('Examples of usage of Flutter diagram_editor library.'),
               SizedBox(height: 16),
-              SelectableText('https://github.com/Arokip/fdl'),
-              SelectableText('https://pub.dev/packages/diagram_editor'),
-              SizedBox(height: 16),
+              ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.blue),
+                ),
+                child: Text('library GitHub'),
+                onPressed: () {
+                  _launchURL('https://github.com/Arokip/fdl');
+                },
+              ),
+              SizedBox(height: 8),
+              ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.blue),
+                ),
+                child: Text('library'),
+                onPressed: () {
+                  _launchURL('https://pub.dev/packages/diagram_editor');
+                },
+              ),
+              SizedBox(height: 40),
               ElevatedButton(
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Colors.blue),
@@ -52,7 +78,7 @@ class HomeScreen extends StatelessWidget {
                   Navigator.pushNamed(context, '/editor');
                 },
               ),
-              SizedBox(height: 32),
+              SizedBox(height: 40),
               Text('More examples:'),
               SizedBox(height: 8),
               ElevatedButton(
@@ -102,6 +128,18 @@ class HomeScreen extends StatelessWidget {
                 child: Text('grid snapping example'),
                 onPressed: () {
                   Navigator.pushNamed(context, '/grid');
+                },
+              ),
+              SizedBox(height: 40),
+              Text('link to ETL app:'),
+              SizedBox(height: 8),
+              ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.blue),
+                ),
+                child: Text('ETL'),
+                onPressed: () {
+                  _launchURL('https://arokip.github.io/etl_diagram_editor');
                 },
               ),
             ],

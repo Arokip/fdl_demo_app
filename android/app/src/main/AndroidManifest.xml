@@ -2,7 +2,7 @@
     package="cz.arokip.diagram_editor_apps">
    <application
         android:label="diagram_editor_apps"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
