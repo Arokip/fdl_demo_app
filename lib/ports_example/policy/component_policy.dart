@@ -3,7 +3,7 @@ import 'package:diagram_editor_apps/ports_example/policy/custom_policy.dart';
 import 'package:flutter/material.dart';
 
 mixin MyComponentPolicy implements ComponentPolicy, CustomPolicy {
-  Offset lastFocalPoint;
+  late Offset lastFocalPoint;
 
   @override
   onComponentTap(String componentId) {
@@ -43,21 +43,23 @@ mixin MyComponentPolicy implements ComponentPolicy, CustomPolicy {
     if (component.type == 'component') {
       canvasWriter.model.moveComponentWithChildren(componentId, positionDelta);
     } else if (component.type == 'port') {
-      canvasWriter.model
-          .moveComponentWithChildren(component.parentId, positionDelta);
+      if (component.parentId != null) {
+        canvasWriter.model
+            .moveComponentWithChildren(component.parentId!, positionDelta);
+      }
     }
 
     lastFocalPoint = details.localFocalPoint;
   }
 
-  bool connectComponents(String sourceComponentId, String targetComponentId) {
+  bool connectComponents(String? sourceComponentId, String? targetComponentId) {
     if (!canConnectThesePorts(sourceComponentId, targetComponentId)) {
       return false;
     }
 
     canvasWriter.model.connectTwoComponents(
-      sourceComponentId: sourceComponentId,
-      targetComponentId: targetComponentId,
+      sourceComponentId: sourceComponentId!,
+      targetComponentId: targetComponentId!,
       linkStyle: LinkStyle(
         arrowType: ArrowType.pointedArrow,
         lineWidth: 1.5,

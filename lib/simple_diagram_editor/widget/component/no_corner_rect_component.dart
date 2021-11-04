@@ -6,8 +6,8 @@ class NoCornerRectBody extends StatelessWidget {
   final ComponentData componentData;
 
   const NoCornerRectBody({
-    Key key,
-    @required this.componentData,
+    Key? key,
+    required this.componentData,
   }) : super(key: key);
 
   @override
@@ -27,7 +27,7 @@ class NoCornerRectPainter extends CustomPainter {
   final Color color;
   final Color borderColor;
   final double borderWidth;
-  Size componentSize;
+  Size componentSize = const Size(0, 0);
 
   NoCornerRectPainter({
     this.color = Colors.grey,

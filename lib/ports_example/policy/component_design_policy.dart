@@ -9,13 +9,10 @@ mixin MyComponentDesignPolicy implements ComponentDesignPolicy {
     switch (componentData.type) {
       case 'component':
         return RectComponent(componentData: componentData);
-        break;
       case 'port':
         return PortComponent(componentData: componentData);
-        break;
       default:
         return SizedBox.shrink();
-        break;
     }
   }
 }

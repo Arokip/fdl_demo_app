@@ -11,7 +11,7 @@ mixin MiniMapInitPolicy implements InitPolicy {
     canvasWriter.state.setMinScale(0.025);
     canvasWriter.state.setMaxScale(0.25);
     canvasWriter.state.setScale(0.1);
-    canvasWriter.state.setCanvasColor(Colors.grey[300].withOpacity(0.9));
+    canvasWriter.state.setCanvasColor(Colors.grey[300]!.withOpacity(0.9));
     canvasWriter.state.setPosition(Offset(80, 60));
   }
 }

@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 class PortSwitch extends StatefulWidget {
   final MyPolicySet policySet;
 
-  const PortSwitch({Key key, this.policySet}) : super(key: key);
+  const PortSwitch({
+    Key? key,
+    required this.policySet,
+  }) : super(key: key);
 
   @override
   _PortSwitchState createState() => _PortSwitchState();

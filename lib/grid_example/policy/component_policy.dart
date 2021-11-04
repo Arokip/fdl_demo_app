@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 enum Movement { topLeft, topRight, bottomLeft, bottomRight }
 
 mixin MyComponentPolicy implements ComponentPolicy, CustomPolicy {
-  Offset startFocalPosition;
-  Offset startComponentPosition;
+  late Offset startFocalPosition;
+  late Offset startComponentPosition;
   Offset lastPositionChange = Offset.zero;
   Movement movement = Movement.topLeft;
 

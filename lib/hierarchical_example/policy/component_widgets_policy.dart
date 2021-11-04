@@ -122,7 +122,7 @@ mixin MyComponentWidgetsPolicy implements ComponentWidgetsPolicy, CustomPolicy {
                 height: 8,
                 decoration: BoxDecoration(
                   color: Colors.black,
-                  border: Border.all(color: Colors.grey[200]),
+                  border: Border.all(color: Colors.grey[200]!),
                 ),
               ),
             ),

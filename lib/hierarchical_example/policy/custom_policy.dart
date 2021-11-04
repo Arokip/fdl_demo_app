@@ -1,17 +1,19 @@
 import 'package:diagram_editor/diagram_editor.dart';
 
 mixin CustomPolicy implements PolicySet {
-  String selectedComponentId;
+  String? selectedComponentId;
 
   bool isReadyToAddParent = false;
 
-  highlightComponent(String componentId) {
-    canvasReader.model.getComponent(componentId).data.showHighlight();
-    canvasReader.model.getComponent(componentId).updateComponent();
+  highlightComponent(String? componentId) {
+    if (componentId != null) {
+      canvasReader.model.getComponent(componentId).data.showHighlight();
+      canvasReader.model.getComponent(componentId).updateComponent();
+    }
   }
 
-  hideComponentHighlight(String componentId) {
-    if (selectedComponentId != null) {
+  hideComponentHighlight(String? componentId) {
+    if (componentId != null) {
       canvasReader.model.getComponent(componentId).data.hideHighlight();
       canvasReader.model.getComponent(componentId).updateComponent();
     }

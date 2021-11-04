@@ -17,7 +17,9 @@ mixin MyCanvasPolicy implements CanvasPolicy, CustomPolicy {
 
     if (isReadyToAddParent) {
       isReadyToAddParent = false;
-      canvasWriter.model.updateComponent(selectedComponentId);
+      if (selectedComponentId != null) {
+        canvasWriter.model.updateComponent(selectedComponentId!);
+      }
     } else {
       if (selectedComponentId != null) {
         hideComponentHighlight(selectedComponentId);

@@ -23,7 +23,7 @@ mixin CustomStatePolicy implements PolicySet {
     'no_corner_rect',
   ];
 
-  String selectedComponentId;
+  String? selectedComponentId;
 
   bool isMultipleSelectionOn = false;
   List<String> multipleSelected = [];
@@ -32,7 +32,7 @@ mixin CustomStatePolicy implements PolicySet {
 
   bool isReadyToConnect = false;
 
-  String selectedLinkId;
+  String? selectedLinkId;
   Offset tapLinkPosition = Offset.zero;
 
   hideAllHighlights() {
@@ -61,7 +61,7 @@ mixin CustomStatePolicy implements PolicySet {
     isReadyToConnect = false;
 
     if (selectedComponentId != null) {
-      addComponentToMultipleSelection(selectedComponentId);
+      addComponentToMultipleSelection(selectedComponentId!);
       selectedComponentId = null;
     }
   }

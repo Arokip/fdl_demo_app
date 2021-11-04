@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 mixin MyComponentDesignPolicy implements ComponentDesignPolicy, CustomPolicy {
   @override
-  Widget showComponentBody(ComponentData componentData) {
+  Widget? showComponentBody(ComponentData componentData) {
     final text = Text(
       'id: ${componentData.id.substring(0, 4)}',
       style: TextStyle(fontSize: 10),
@@ -28,7 +28,7 @@ mixin MyComponentDesignPolicy implements ComponentDesignPolicy, CustomPolicy {
                   Text(
                     componentData.parentId == null
                         ? 'no parent'
-                        : 'parent: ${componentData.parentId.substring(0, 4)}',
+                        : 'parent: ${componentData.parentId?.substring(0, 4)}',
                     style: TextStyle(fontSize: 10),
                   ),
                 ],

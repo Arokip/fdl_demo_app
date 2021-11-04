@@ -6,8 +6,8 @@ class RoundRectBody extends StatelessWidget {
   final ComponentData componentData;
 
   const RoundRectBody({
-    Key key,
-    @required this.componentData,
+    Key? key,
+    required this.componentData,
   }) : super(key: key);
 
   @override
@@ -27,7 +27,7 @@ class RoundRectPainter extends CustomPainter {
   final Color color;
   final Color borderColor;
   final double borderWidth;
-  Size componentSize;
+  Size componentSize = const Size(0, 0);
 
   RoundRectPainter({
     this.color = Colors.grey,

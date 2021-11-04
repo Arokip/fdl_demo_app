@@ -8,7 +8,9 @@ mixin MyCanvasPolicy implements CanvasPolicy, CustomStatePolicy {
 
     if (isReadyToConnect) {
       isReadyToConnect = false;
-      canvasWriter.model.updateComponent(selectedComponentId);
+      if (selectedComponentId != null) {
+        canvasWriter.model.updateComponent(selectedComponentId!);
+      }
     } else {
       selectedComponentId = null;
       hideAllHighlights();

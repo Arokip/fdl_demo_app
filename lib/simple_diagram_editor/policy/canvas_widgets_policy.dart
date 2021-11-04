@@ -18,13 +18,13 @@ mixin MyCanvasWidgetsPolicy implements CanvasWidgetsPolicy, CustomStatePolicy {
                 ? canvasReader.state.scale
                 : 1.0,
             matchParentSize: false,
-            lineColor: Colors.blue[900],
+            lineColor: Colors.blue[900]!,
           ),
         ),
       ),
       DragTarget<ComponentData>(
-        builder: (_, __, ___) => null,
-        onWillAccept: (ComponentData data) => true,
+        builder: (_, __, ___) => SizedBox.shrink(),
+        onWillAccept: (_) => true,
         onAcceptWithDetails: (DragTargetDetails<ComponentData> details) =>
             _onAcceptWithDetails(details, context),
       ),
@@ -35,7 +35,7 @@ mixin MyCanvasWidgetsPolicy implements CanvasWidgetsPolicy, CustomStatePolicy {
     DragTargetDetails details,
     BuildContext context,
   ) {
-    final RenderBox renderBox = context.findRenderObject();
+    final RenderBox renderBox = context.findRenderObject() as RenderBox;
     final Offset localOffset = renderBox.globalToLocal(details.offset);
     ComponentData componentData = details.data;
     Offset componentPosition =

@@ -21,10 +21,8 @@ mixin MyComponentPolicy implements ComponentPolicy, CustomStatePolicy {
         isReadyToConnect = false;
         bool connected = connectComponents(selectedComponentId, componentId);
         if (connected) {
-          print('connected');
           selectedComponentId = null;
         } else {
-          print('not connected');
           selectedComponentId = componentId;
           highlightComponent(componentId);
         }
@@ -35,7 +33,7 @@ mixin MyComponentPolicy implements ComponentPolicy, CustomStatePolicy {
     }
   }
 
-  Offset lastFocalPoint;
+  late Offset lastFocalPoint;
 
   @override
   onComponentScaleStart(componentId, details) {
@@ -69,8 +67,8 @@ mixin MyComponentPolicy implements ComponentPolicy, CustomStatePolicy {
     lastFocalPoint = details.localFocalPoint;
   }
 
-  bool connectComponents(String sourceComponentId, String targetComponentId) {
-    if (sourceComponentId == null) {
+  bool connectComponents(String? sourceComponentId, String? targetComponentId) {
+    if (sourceComponentId == null || targetComponentId == null) {
       return false;
     }
     if (sourceComponentId == targetComponentId) {

@@ -11,8 +11,8 @@ class SimpleDemoEditor extends StatefulWidget {
 }
 
 class _SimpleDemoEditorState extends State<SimpleDemoEditor> {
-  DiagramEditorContext diagramEditorContext;
-  DiagramEditorContext diagramEditorContextMiniMap;
+  late DiagramEditorContext diagramEditorContext;
+  late DiagramEditorContext diagramEditorContextMiniMap;
 
   MyPolicySet myPolicySet = MyPolicySet();
   MiniMapPolicySet miniMapPolicySet = MiniMapPolicySet();

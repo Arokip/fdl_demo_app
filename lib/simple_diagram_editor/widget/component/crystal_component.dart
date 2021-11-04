@@ -6,8 +6,8 @@ class CrystalBody extends StatelessWidget {
   final ComponentData componentData;
 
   const CrystalBody({
-    Key key,
-    this.componentData,
+    Key? key,
+    required this.componentData,
   }) : super(key: key);
 
   @override
@@ -27,7 +27,7 @@ class CrystalPainter extends CustomPainter {
   final Color color;
   final Color borderColor;
   final double borderWidth;
-  Size componentSize;
+  Size componentSize = const Size(0, 0);
 
   CrystalPainter({
     this.color = Colors.grey,

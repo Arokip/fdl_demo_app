@@ -6,8 +6,8 @@ class BeanBody extends StatelessWidget {
   final ComponentData componentData;
 
   const BeanBody({
-    Key key,
-    this.componentData,
+    Key? key,
+    required this.componentData,
   }) : super(key: key);
 
   @override
@@ -27,7 +27,7 @@ class BeanPainter extends CustomPainter {
   final Color color;
   final Color borderColor;
   final double borderWidth;
-  Size componentSize;
+  Size componentSize = const Size(0, 0);
 
   BeanPainter({
     this.color = Colors.grey,

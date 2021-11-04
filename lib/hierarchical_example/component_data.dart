@@ -2,7 +2,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 class MyComponentData {
-  bool isHighlightVisible;
+  bool isHighlightVisible = false;
   Color color =
       Color((math.Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0);
 

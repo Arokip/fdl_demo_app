@@ -28,9 +28,8 @@ void showEditLinkDialog(BuildContext context, LinkData linkData) {
   bool isLabelsEditShown = false;
 
   final startLabelController =
-      TextEditingController(text: customData.startLabel ?? '');
-  final endLabelController =
-      TextEditingController(text: customData.endLabel ?? '');
+      TextEditingController(text: customData.startLabel);
+  final endLabelController = TextEditingController(text: customData.endLabel);
 
   showDialog(
     barrierDismissible: false,
@@ -59,9 +58,9 @@ void showEditLinkDialog(BuildContext context, LinkData linkData) {
                       Container(
                         child: DropdownButton<LineType>(
                           value: lineTypeDropdown,
-                          onChanged: (LineType newValue) {
+                          onChanged: (LineType? newValue) {
                             setState(() {
-                              lineTypeDropdown = newValue;
+                              lineTypeDropdown = newValue ?? lineTypeDropdown;
                             });
                           },
                           items: LineType.values.map((LineType lineType) {
@@ -153,9 +152,9 @@ void showEditLinkDialog(BuildContext context, LinkData linkData) {
                       Container(
                         child: DropdownButton<ArrowType>(
                           value: arrowTypeDropdown,
-                          onChanged: (ArrowType newValue) {
+                          onChanged: (ArrowType? newValue) {
                             setState(() {
-                              arrowTypeDropdown = newValue;
+                              arrowTypeDropdown = newValue ?? arrowTypeDropdown;
                             });
                           },
                           items: ArrowType.values.map((ArrowType arrowType) {
@@ -247,9 +246,10 @@ void showEditLinkDialog(BuildContext context, LinkData linkData) {
                       Container(
                         child: DropdownButton<ArrowType>(
                           value: backArrowTypeDropdown,
-                          onChanged: (ArrowType newValue) {
+                          onChanged: (ArrowType? newValue) {
                             setState(() {
-                              backArrowTypeDropdown = newValue;
+                              backArrowTypeDropdown =
+                                  newValue ?? backArrowTypeDropdown;
                             });
                           },
                           items: ArrowType.values.map((ArrowType arrowType) {
@@ -430,15 +430,19 @@ void showEditLinkDialog(BuildContext context, LinkData linkData) {
 class ShowItem extends StatelessWidget {
   final String text;
   final bool isShown;
-  final Function onTap;
+  final Function? onTap;
 
-  const ShowItem({Key key, this.text, this.isShown, this.onTap})
-      : super(key: key);
+  const ShowItem({
+    Key? key,
+    this.text = '',
+    this.isShown = false,
+    this.onTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => onTap(),
+      onTap: () => onTap?.call(),
       child: Row(
         children: [
           Text(text),

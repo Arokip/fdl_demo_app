@@ -6,8 +6,8 @@ class RectComponent extends StatelessWidget {
   final ComponentData componentData;
 
   const RectComponent({
-    Key key,
-    @required this.componentData,
+    Key? key,
+    required this.componentData,
   }) : super(key: key);
 
   @override
