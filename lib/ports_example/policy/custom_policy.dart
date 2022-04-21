@@ -22,10 +22,10 @@ mixin CustomPolicy implements PolicySet {
     canvasWriter.model.removeAllComponents();
   }
 
-  String selectedPortId;
+  String? selectedPortId;
   bool arePortsVisible = true;
 
-  bool canConnectThesePorts(String portId1, String portId2) {
+  bool canConnectThesePorts(String? portId1, String? portId2) {
     if (portId1 == null || portId2 == null) {
       return false;
     }
@@ -188,6 +188,8 @@ mixin CustomPolicy implements PolicySet {
       case 'B':
         portColor = Colors.blue;
         break;
+      default:
+        portColor = Colors.white;
     }
     var portData = PortData(
       type: portType,

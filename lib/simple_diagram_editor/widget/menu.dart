@@ -7,8 +7,8 @@ class DraggableMenu extends StatelessWidget {
   final MyPolicySet myPolicySet;
 
   const DraggableMenu({
-    Key key,
-    this.myPolicySet,
+    Key? key,
+    required this.myPolicySet,
   }) : super(key: key);
 
   @override
@@ -36,7 +36,7 @@ class DraggableMenu extends StatelessWidget {
                       child: AspectRatio(
                         aspectRatio: componentData.size.aspectRatio,
                         child: Tooltip(
-                          message: componentData.type,
+                          message: componentData.type ?? '',
                           child: DraggableComponent(
                             myPolicySet: myPolicySet,
                             componentData: componentData,
@@ -66,7 +66,6 @@ class DraggableMenu extends StatelessWidget {
           ),
           type: componentType,
         );
-        break;
       default:
         return ComponentData(
           size: Size(120, 72),
@@ -78,7 +77,6 @@ class DraggableMenu extends StatelessWidget {
           ),
           type: componentType,
         );
-        break;
     }
   }
 }
@@ -88,9 +86,9 @@ class DraggableComponent extends StatelessWidget {
   final ComponentData componentData;
 
   const DraggableComponent({
-    Key key,
-    this.myPolicySet,
-    this.componentData,
+    Key? key,
+    required this.myPolicySet,
+    required this.componentData,
   }) : super(key: key);
 
   @override
@@ -108,7 +106,7 @@ class DraggableComponent extends StatelessWidget {
           child: myPolicySet.showComponentBody(componentData),
         ),
       ),
-      child: myPolicySet.showComponentBody(componentData),
+      child: myPolicySet.showComponentBody(componentData) ?? SizedBox.shrink(),
     );
   }
 }

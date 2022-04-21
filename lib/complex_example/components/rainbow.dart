@@ -5,7 +5,11 @@ class RainbowItem extends StatelessWidget {
   final Color color;
   final double width;
 
-  const RainbowItem({Key key, this.color, this.width}) : super(key: key);
+  const RainbowItem({
+    Key? key,
+    this.color = Colors.black,
+    this.width = 80,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,8 +24,8 @@ class ComplexRainbowComponent extends StatelessWidget {
   final ComponentData componentData;
 
   const ComplexRainbowComponent({
-    Key key,
-    this.componentData,
+    Key? key,
+    required this.componentData,
   }) : super(key: key);
 
   @override
@@ -71,30 +75,32 @@ class ComplexRainbowComponent extends StatelessWidget {
             ],
           ),
           SizedBox(height: 16),
-          Text(
-            'This is a bit more complex component... try to scroll the rainbow below.',
-            style: TextStyle(fontSize: 11),
-          ),
           Center(
-            child: Padding(
-              padding: EdgeInsets.all(24),
-              child: SizedBox(
-                height: 80,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: <Widget>[
-                    RainbowItem(width: 80, color: Colors.red),
-                    RainbowItem(width: 80, color: Colors.orange),
-                    RainbowItem(width: 80, color: Colors.amber),
-                    RainbowItem(width: 80, color: Colors.yellow),
-                    RainbowItem(width: 80, color: Colors.lime),
-                    RainbowItem(width: 80, color: Colors.green),
-                    RainbowItem(width: 80, color: Colors.cyan),
-                    RainbowItem(width: 80, color: Colors.blue),
-                    RainbowItem(width: 80, color: Colors.indigo),
-                    RainbowItem(width: 80, color: Colors.purple),
-                  ],
-                ),
+            child: Text(
+              'This was used to be incredible... however, since Flutter 2.5 it\'s not possible to scroll the rainbow below in desktop/web (but buttons work) :-(',
+              style: TextStyle(fontSize: 11),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 24, right: 24, bottom: 24, top: 8),
+            child: SizedBox(
+              height: 80,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: <Widget>[
+                  // TODO: in dart 2.5 this is not scrollable
+                  RainbowItem(width: 80, color: Colors.red),
+                  RainbowItem(width: 80, color: Colors.orange),
+                  RainbowItem(width: 80, color: Colors.amber),
+                  RainbowItem(width: 80, color: Colors.yellow),
+                  RainbowItem(width: 80, color: Colors.lime),
+                  RainbowItem(width: 80, color: Colors.green),
+                  RainbowItem(width: 80, color: Colors.cyan),
+                  RainbowItem(width: 80, color: Colors.blue),
+                  RainbowItem(width: 80, color: Colors.indigo),
+                  RainbowItem(width: 80, color: Colors.purple),
+                ],
               ),
             ),
           ),

@@ -6,8 +6,8 @@ class RectBody extends StatelessWidget {
   final ComponentData componentData;
 
   const RectBody({
-    Key key,
-    @required this.componentData,
+    Key? key,
+    required this.componentData,
   }) : super(key: key);
 
   @override
@@ -27,7 +27,7 @@ class RectPainter extends CustomPainter {
   final Color color;
   final Color borderColor;
   final double borderWidth;
-  Size componentSize;
+  Size componentSize = const Size(0, 0);
 
   RectPainter({
     this.color = Colors.grey,

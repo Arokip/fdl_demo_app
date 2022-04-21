@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 class SpanSwitch extends StatefulWidget {
   final MyPolicySet policySet;
 
-  const SpanSwitch({Key key, this.policySet}) : super(key: key);
+  const SpanSwitch({
+    Key? key,
+    required this.policySet,
+  }) : super(key: key);
 
   @override
   _SpanSwitchState createState() => _SpanSwitchState();

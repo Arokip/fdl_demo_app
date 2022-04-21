@@ -5,17 +5,17 @@ class OptionIcon extends StatelessWidget {
   final double size;
   final BoxShape shape;
   final String tooltip;
-  final IconData iconData;
+  final IconData? iconData;
   final Color iconColor;
   final double iconSize;
-  final Function onPressed;
+  final Function? onPressed;
 
   const OptionIcon({
-    Key key,
+    Key? key,
     this.color = Colors.grey,
     this.size = 40,
     this.shape = BoxShape.circle,
-    this.tooltip,
+    this.tooltip = '',
     this.iconData,
     this.iconColor = Colors.black,
     this.iconSize = 20,
@@ -33,11 +33,7 @@ class OptionIcon extends StatelessWidget {
       ),
       child: IconButton(
         tooltip: tooltip,
-        onPressed: () {
-          if (onPressed != null) {
-            onPressed();
-          }
-        },
+        onPressed: () => onPressed?.call(),
         padding: EdgeInsets.all(0),
         icon: Icon(
           iconData,

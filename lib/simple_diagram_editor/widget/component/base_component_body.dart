@@ -7,9 +7,9 @@ class BaseComponentBody extends StatelessWidget {
   final CustomPainter componentPainter;
 
   const BaseComponentBody({
-    Key key,
-    this.componentData,
-    this.componentPainter,
+    Key? key,
+    required this.componentData,
+    required this.componentPainter,
   }) : super(key: key);
 
   @override

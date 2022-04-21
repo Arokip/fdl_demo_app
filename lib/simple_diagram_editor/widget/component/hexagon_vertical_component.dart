@@ -6,8 +6,8 @@ class HexagonVerticalBody extends StatelessWidget {
   final ComponentData componentData;
 
   const HexagonVerticalBody({
-    Key key,
-    this.componentData,
+    Key? key,
+    required this.componentData,
   }) : super(key: key);
 
   @override
@@ -27,7 +27,7 @@ class HexagonVerticalPainter extends CustomPainter {
   final Color color;
   final Color borderColor;
   final double borderWidth;
-  Size componentSize;
+  Size componentSize = const Size(0, 0);
 
   HexagonVerticalPainter({
     this.color = Colors.grey,

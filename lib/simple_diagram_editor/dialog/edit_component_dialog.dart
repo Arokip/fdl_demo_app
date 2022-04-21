@@ -15,7 +15,7 @@ void showEditComponentDialog(
   double minBorderWidth = 0;
   double borderWidthDelta = 0.1;
 
-  final textController = TextEditingController(text: customData.text ?? '');
+  final textController = TextEditingController(text: customData.text);
 
   Alignment textAlignmentDropdown = customData.textAlignment;
   var alignmentValues = [
@@ -57,9 +57,9 @@ void showEditComponentDialog(
               Container(
                 child: DropdownButton<Alignment>(
                   value: textAlignmentDropdown,
-                  onChanged: (Alignment newValue) {
+                  onChanged: (Alignment? newValue) {
                     setState(() {
-                      textAlignmentDropdown = newValue;
+                      textAlignmentDropdown = newValue ?? textAlignmentDropdown;
                     });
                   },
                   items: alignmentValues.map((Alignment alignment) {
@@ -78,9 +78,9 @@ void showEditComponentDialog(
                   Container(
                     child: DropdownButton<double>(
                       value: textSizeDropdown,
-                      onChanged: (double newValue) {
+                      onChanged: (double? newValue) {
                         setState(() {
-                          textSizeDropdown = newValue;
+                          textSizeDropdown = newValue ?? textSizeDropdown;
                         });
                       },
                       items: textSizeValues.map((double textSize) {

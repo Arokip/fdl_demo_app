@@ -12,7 +12,7 @@ class ComplexDiagramEditor extends StatefulWidget {
 
 class _ComplexDiagramEditorState extends State<ComplexDiagramEditor> {
   MyPolicySet myPolicySet = MyPolicySet();
-  DiagramEditorContext diagramEditorContext;
+  late DiagramEditorContext diagramEditorContext;
 
   @override
   void initState() {
@@ -110,7 +110,7 @@ class MyPolicySet extends PolicySet
 mixin MyInitPolicy implements InitPolicy {
   @override
   initializeDiagramEditor() {
-    canvasWriter.state.setCanvasColor(Colors.grey[300]);
+    canvasWriter.state.setCanvasColor(Colors.grey[300]!);
   }
 }
 
@@ -120,10 +120,8 @@ mixin MyComponentDesignPolicy implements ComponentDesignPolicy, CustomPolicy {
     switch (componentData.type) {
       case 'rainbow':
         return ComplexRainbowComponent(componentData: componentData);
-        break;
       case 'random':
         return RandomComponent(componentData: componentData);
-        break;
       case 'flutter':
         return Container(
           color: componentData.data.isHighlightVisible
@@ -133,10 +131,8 @@ mixin MyComponentDesignPolicy implements ComponentDesignPolicy, CustomPolicy {
               ? FlutterLogo(style: FlutterLogoStyle.horizontal)
               : FlutterLogo(),
         );
-        break;
       default:
         return SizedBox.shrink();
-        break;
     }
   }
 }
@@ -161,7 +157,7 @@ mixin MyCanvasPolicy implements CanvasPolicy, CustomPolicy {
 }
 
 mixin MyComponentPolicy implements ComponentPolicy, CustomPolicy {
-  Offset lastFocalPoint;
+  late Offset lastFocalPoint;
 
   @override
   onComponentTap(String componentId) {
@@ -199,8 +195,8 @@ mixin MyComponentPolicy implements ComponentPolicy, CustomPolicy {
     lastFocalPoint = details.localFocalPoint;
   }
 
-  bool connectComponents(String sourceComponentId, String targetComponentId) {
-    if (sourceComponentId == null) {
+  bool connectComponents(String? sourceComponentId, String? targetComponentId) {
+    if (sourceComponentId == null || targetComponentId == null) {
       return false;
     }
     if (sourceComponentId == targetComponentId) {
@@ -233,15 +229,15 @@ mixin MyComponentPolicy implements ComponentPolicy, CustomPolicy {
 }
 
 mixin CustomPolicy implements PolicySet {
-  String selectedComponentId;
+  String? selectedComponentId;
 
   highlightComponent(String componentId) {
     canvasReader.model.getComponent(componentId).data.showHighlight();
     canvasReader.model.getComponent(componentId).updateComponent();
   }
 
-  hideComponentHighlight(String componentId) {
-    if (selectedComponentId != null) {
+  hideComponentHighlight(String? componentId) {
+    if (componentId != null) {
       canvasReader.model.getComponent(componentId).data.hideHighlight();
       canvasReader.model.getComponent(componentId).updateComponent();
     }
@@ -269,12 +265,8 @@ mixin MyLinkAttachmentPolicy implements LinkAttachmentPolicy {
     switch (componentData.type) {
       case 'random':
         return Alignment.center;
-        break;
-
       case 'flutter':
         return Alignment(-0.54, 0);
-        break;
-
       default:
         Offset pointAlignment;
         if (pointPosition.dx.abs() >= pointPosition.dy.abs()) {
@@ -285,7 +277,6 @@ mixin MyLinkAttachmentPolicy implements LinkAttachmentPolicy {
               pointPosition.dy / pointPosition.dy.abs());
         }
         return Alignment(pointAlignment.dx, pointAlignment.dy);
-        break;
     }
   }
 }

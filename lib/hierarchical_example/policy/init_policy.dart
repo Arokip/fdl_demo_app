@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 mixin MyInitPolicy implements InitPolicy {
   @override
   initializeDiagramEditor() {
-    canvasWriter.state.setCanvasColor(Colors.grey[300]);
+    canvasWriter.state.setCanvasColor(Colors.grey[300]!);
 
     var cd1 = getSmallComponentData(Offset(220, 100));
     var cd2 = getSmallComponentData(Offset(220, 180));

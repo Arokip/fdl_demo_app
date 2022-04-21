@@ -23,7 +23,8 @@ mixin MyComponentWidgetsPolicy
           highlight(
               componentData, isMultipleSelectionOn ? Colors.cyan : Colors.red),
           if (showOptions) resizeCorner(componentData),
-          if (isJunction && !isReadyToConnect) junctionOptions(componentData),
+          if (isJunction && !isMultipleSelectionOn && !isReadyToConnect)
+            junctionOptions(componentData),
         ],
       ),
     );
@@ -168,7 +169,7 @@ mixin MyComponentWidgetsPolicy
                 height: 8,
                 decoration: BoxDecoration(
                   color: Colors.black,
-                  border: Border.all(color: Colors.grey[200]),
+                  border: Border.all(color: Colors.grey[200]!),
                 ),
               ),
             ),

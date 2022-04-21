@@ -7,8 +7,8 @@ class RandomComponent extends StatelessWidget {
   final ComponentData componentData;
 
   const RandomComponent({
-    Key key,
-    this.componentData,
+    Key? key,
+    required this.componentData,
   }) : super(key: key);
 
   Path componentPath() {
@@ -59,8 +59,8 @@ class RandomPainter extends CustomPainter {
     this.color = Colors.grey,
     this.borderColor = Colors.black,
     this.borderWidth = 1.0,
-    this.path,
-    this.path2,
+    required this.path,
+    required this.path2,
   });
 
   @override

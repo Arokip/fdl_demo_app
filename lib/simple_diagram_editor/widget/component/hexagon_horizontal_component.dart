@@ -6,8 +6,8 @@ class HexagonHorizontalBody extends StatelessWidget {
   final ComponentData componentData;
 
   const HexagonHorizontalBody({
-    Key key,
-    this.componentData,
+    Key? key,
+    required this.componentData,
   }) : super(key: key);
 
   @override
@@ -27,7 +27,7 @@ class HexagonHorizontalPainter extends CustomPainter {
   final Color color;
   final Color borderColor;
   final double borderWidth;
-  Size componentSize;
+  Size componentSize = const Size(0, 0);
 
   HexagonHorizontalPainter({
     this.color = Colors.grey,
