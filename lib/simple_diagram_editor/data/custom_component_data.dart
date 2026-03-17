@@ -20,25 +20,25 @@ class MyComponentData {
     this.textSize = 20,
   });
 
-  MyComponentData.copy(MyComponentData customData)
+  MyComponentData.copy(MyComponentData other)
       : this(
-          color: customData.color,
-          borderColor: customData.borderColor,
-          borderWidth: customData.borderWidth,
-          text: customData.text,
-          textAlignment: customData.textAlignment,
-          textSize: customData.textSize,
+          color: other.color,
+          borderColor: other.borderColor,
+          borderWidth: other.borderWidth,
+          text: other.text,
+          textAlignment: other.textAlignment,
+          textSize: other.textSize,
         );
 
-  switchHighlight() {
+  void switchHighlight() {
     isHighlightVisible = !isHighlightVisible;
   }
 
-  showHighlight() {
+  void showHighlight() {
     isHighlightVisible = true;
   }
 
-  hideHighlight() {
+  void hideHighlight() {
     isHighlightVisible = false;
   }
 }

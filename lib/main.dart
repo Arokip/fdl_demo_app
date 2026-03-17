@@ -55,7 +55,7 @@ class HomeScreen extends StatelessWidget {
               const SizedBox(height: 16),
               ElevatedButton(
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Colors.blue),
+                  backgroundColor: WidgetStateProperty.all(Colors.blue),
                 ),
                 child: const Text('library GitHub'),
                 onPressed: () async {
@@ -65,7 +65,7 @@ class HomeScreen extends StatelessWidget {
               const SizedBox(height: 8),
               ElevatedButton(
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Colors.blue),
+                  backgroundColor: WidgetStateProperty.all(Colors.blue),
                 ),
                 child: const Text('library'),
                 onPressed: () async {
@@ -75,7 +75,7 @@ class HomeScreen extends StatelessWidget {
               const SizedBox(height: 40),
               ElevatedButton(
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Colors.blue),
+                  backgroundColor: WidgetStateProperty.all(Colors.blue),
                 ),
                 child: const Text('Simple editor'),
                 onPressed: () {
@@ -87,7 +87,7 @@ class HomeScreen extends StatelessWidget {
               const SizedBox(height: 8),
               ElevatedButton(
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Colors.blue),
+                  backgroundColor: WidgetStateProperty.all(Colors.blue),
                 ),
                 child: const Text('pub.dev example'),
                 onPressed: () {
@@ -97,7 +97,7 @@ class HomeScreen extends StatelessWidget {
               const SizedBox(height: 8),
               ElevatedButton(
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Colors.blue),
+                  backgroundColor: WidgetStateProperty.all(Colors.blue),
                 ),
                 child: const Text('port example'),
                 onPressed: () {
@@ -107,7 +107,7 @@ class HomeScreen extends StatelessWidget {
               const SizedBox(height: 8),
               ElevatedButton(
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Colors.blue),
+                  backgroundColor: WidgetStateProperty.all(Colors.blue),
                 ),
                 child: const Text('hierarchical components example'),
                 onPressed: () {
@@ -117,7 +117,7 @@ class HomeScreen extends StatelessWidget {
               const SizedBox(height: 8),
               ElevatedButton(
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Colors.blue),
+                  backgroundColor: WidgetStateProperty.all(Colors.blue),
                 ),
                 child: const Text('complex widget components'),
                 onPressed: () {
@@ -127,7 +127,7 @@ class HomeScreen extends StatelessWidget {
               const SizedBox(height: 8),
               ElevatedButton(
                 style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Colors.blue),
+                  backgroundColor: WidgetStateProperty.all(Colors.blue),
                 ),
                 child: const Text('grid snapping example'),
                 onPressed: () {

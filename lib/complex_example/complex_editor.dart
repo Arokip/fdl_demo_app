@@ -13,15 +13,169 @@ class ComplexDiagramEditor extends StatefulWidget {
 }
 
 class ComplexDiagramEditorState extends State<ComplexDiagramEditor> {
-  MyPolicySet myPolicySet = MyPolicySet();
-  late DiagramEditorContext diagramEditorContext;
+  late DiagramController<MyComponentData, void> controller;
+
+  String? selectedComponentId;
+  late Offset lastFocalPoint;
 
   @override
   void initState() {
-    diagramEditorContext = DiagramEditorContext(
-      policySet: myPolicySet,
+    controller = DiagramController<MyComponentData, void>(
+      linkEndpointAligner: _getLinkEndpointAlignment,
     );
     super.initState();
+  }
+
+  Alignment _getLinkEndpointAlignment(
+    ComponentData componentData,
+    Offset targetPoint,
+  ) {
+    Offset pointPosition = targetPoint -
+        (componentData.position + componentData.size.center(Offset.zero));
+    pointPosition = Offset(
+      pointPosition.dx / componentData.size.width,
+      pointPosition.dy / componentData.size.height,
+    );
+
+    switch (componentData.type) {
+      case 'random':
+        return Alignment.center;
+
+      case 'flutter':
+        return const Alignment(-0.54, 0);
+
+      default:
+        Offset pointAlignment;
+        if (pointPosition.dx.abs() >= pointPosition.dy.abs()) {
+          pointAlignment = Offset(
+            pointPosition.dx / pointPosition.dx.abs(),
+            pointPosition.dy / pointPosition.dx.abs(),
+          );
+        } else {
+          pointAlignment = Offset(
+            pointPosition.dx / pointPosition.dy.abs(),
+            pointPosition.dy / pointPosition.dy.abs(),
+          );
+        }
+        return Alignment(pointAlignment.dx, pointAlignment.dy);
+    }
+  }
+
+  Widget _componentBuilder(BuildContext context, ComponentData<MyComponentData> componentData) {
+    switch (componentData.type) {
+      case 'rainbow':
+        return ComplexRainbowComponent(componentData: componentData);
+      case 'random':
+        return RandomComponent(componentData: componentData);
+      case 'flutter':
+        return Container(
+          color: componentData.data?.isHighlightVisible == true
+              ? Colors.transparent
+              : Colors.limeAccent,
+          child: componentData.data?.isHighlightVisible == true
+              ? const FlutterLogo(style: FlutterLogoStyle.horizontal)
+              : const FlutterLogo(),
+        );
+      default:
+        return const SizedBox.shrink();
+    }
+  }
+
+  void _onCanvasTapUp(TapUpDetails details) {
+    _hideComponentHighlight(selectedComponentId);
+    selectedComponentId = null;
+    controller.hideAllLinkJoints();
+
+    controller.addComponent(
+      ComponentData(
+        size: const Size(400, 300),
+        position: controller.fromCanvasCoordinates(details.localPosition),
+        data: MyComponentData(),
+        type: ['rainbow', 'random', 'flutter'][math.Random().nextInt(3)],
+      ),
+    );
+  }
+
+  void _onComponentTap(String componentId) {
+    _hideComponentHighlight(selectedComponentId);
+    controller.hideAllLinkJoints();
+
+    bool connected = _connectComponents(selectedComponentId, componentId);
+    if (connected) {
+      selectedComponentId = null;
+    } else {
+      selectedComponentId = componentId;
+      _highlightComponent(componentId);
+    }
+  }
+
+  void _onComponentLongPress(String componentId) {
+    _hideComponentHighlight(selectedComponentId);
+    selectedComponentId = null;
+    controller.hideAllLinkJoints();
+    controller.removeComponent(componentId);
+  }
+
+  void _onComponentScaleStart(String componentId, ScaleStartDetails details) {
+    lastFocalPoint = details.localFocalPoint;
+  }
+
+  void _onComponentScaleUpdate(String componentId, ScaleUpdateDetails details) {
+    Offset positionDelta = details.localFocalPoint - lastFocalPoint;
+    controller.moveComponent(componentId, positionDelta);
+    lastFocalPoint = details.localFocalPoint;
+  }
+
+  bool _connectComponents(
+      String? sourceComponentId, String? targetComponentId) {
+    if (sourceComponentId == null || targetComponentId == null) {
+      return false;
+    }
+    if (sourceComponentId == targetComponentId) {
+      return false;
+    }
+    // test if the connection between two components already exists (one way)
+    if (controller
+        .getComponent(sourceComponentId)
+        .connections
+        .any((connection) =>
+            (connection is OutgoingConnection) &&
+            (connection.otherComponentId == targetComponentId))) {
+      return false;
+    }
+
+    controller.connect(
+      sourceComponentId: sourceComponentId,
+      targetComponentId: targetComponentId,
+      linkStyle: const LinkStyle(
+        arrowType: ArrowType.arrow,
+        lineWidth: 8,
+        backArrowType: ArrowType.centerCircle,
+        color: Colors.green,
+        arrowSize: 15,
+        backArrowSize: 10,
+        lineType: LineType.dashed,
+      ),
+    );
+
+    return true;
+  }
+
+  void _highlightComponent(String componentId) {
+    controller.getComponent(componentId).data?.showHighlight();
+    controller.getComponent(componentId).updateComponent();
+  }
+
+  void _hideComponentHighlight(String? componentId) {
+    if (selectedComponentId != null && componentId != null) {
+      controller.getComponent(componentId).data?.hideHighlight();
+      controller.getComponent(componentId).updateComponent();
+    }
+  }
+
+  void _deleteAllComponents() {
+    selectedComponentId = null;
+    controller.removeAllComponents();
   }
 
   @override
@@ -35,11 +189,17 @@ class ComplexDiagramEditorState extends State<ComplexDiagramEditor> {
               Padding(
                 padding: const EdgeInsets.all(16),
                 child: DiagramEditor(
-                  diagramEditorContext: diagramEditorContext,
+                  controller: controller,
+                  componentBuilder: _componentBuilder,
+                  onCanvasTapUp: _onCanvasTapUp,
+                  onComponentTap: _onComponentTap,
+                  onComponentLongPress: _onComponentLongPress,
+                  onComponentScaleStart: _onComponentScaleStart,
+                  onComponentScaleUpdate: _onComponentScaleUpdate,
                 ),
               ),
               GestureDetector(
-                onTap: () => myPolicySet.deleteAllComponents(),
+                onTap: () => _deleteAllComponents(),
                 child: Container(
                   width: 80,
                   height: 32,
@@ -52,7 +212,7 @@ class ComplexDiagramEditorState extends State<ComplexDiagramEditor> {
                 left: 8,
                 child: ElevatedButton(
                   style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(Colors.blue),
+                    backgroundColor: WidgetStateProperty.all(Colors.blue),
                   ),
                   child: const Row(
                     children: [
@@ -76,204 +236,26 @@ class ComplexDiagramEditorState extends State<ComplexDiagramEditor> {
 
 class MyComponentData {
   bool isHighlightVisible;
-  Color color = Color((math.Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0);
+  Color color = Color.fromARGB(
+    255,
+    math.Random().nextInt(256),
+    math.Random().nextInt(256),
+    math.Random().nextInt(256),
+  );
 
   MyComponentData({
     this.isHighlightVisible = false,
   });
 
-  switchHighlight() {
+  void switchHighlight() {
     isHighlightVisible = !isHighlightVisible;
   }
 
-  showHighlight() {
+  void showHighlight() {
     isHighlightVisible = true;
   }
 
-  hideHighlight() {
+  void hideHighlight() {
     isHighlightVisible = false;
-  }
-}
-
-class MyPolicySet extends PolicySet
-    with
-        MyInitPolicy,
-        MyComponentDesignPolicy,
-        MyCanvasPolicy,
-        MyComponentPolicy,
-        CustomPolicy,
-        MyLinkAttachmentPolicy,
-        //
-        CanvasControlPolicy,
-        LinkControlPolicy,
-        LinkJointControlPolicy {}
-
-mixin MyInitPolicy implements InitPolicy {
-  @override
-  initializeDiagramEditor() {
-    canvasWriter.state.setCanvasColor(const Color(0xFFE0E0E0));
-  }
-}
-
-mixin MyComponentDesignPolicy implements ComponentDesignPolicy, CustomPolicy {
-  @override
-  Widget showComponentBody(ComponentData componentData) {
-    switch (componentData.type) {
-      case 'rainbow':
-        return ComplexRainbowComponent(componentData: componentData);
-      case 'random':
-        return RandomComponent(componentData: componentData);
-      case 'flutter':
-        return Container(
-          color: componentData.data.isHighlightVisible ? Colors.transparent : Colors.limeAccent,
-          child: componentData.data.isHighlightVisible
-              ? const FlutterLogo(style: FlutterLogoStyle.horizontal)
-              : const FlutterLogo(),
-        );
-      default:
-        return const SizedBox.shrink();
-    }
-  }
-}
-
-mixin MyCanvasPolicy implements CanvasPolicy, CustomPolicy {
-  @override
-  onCanvasTapUp(TapUpDetails details) {
-    hideComponentHighlight(selectedComponentId);
-    selectedComponentId = null;
-    canvasWriter.model.hideAllLinkJoints();
-
-    canvasWriter.model.addComponent(
-      ComponentData(
-        size: const Size(400, 300),
-        position: canvasReader.state.fromCanvasCoordinates(details.localPosition),
-        data: MyComponentData(),
-        type: ['rainbow', 'random', 'flutter'][math.Random().nextInt(3)],
-      ),
-    );
-  }
-}
-
-mixin MyComponentPolicy implements ComponentPolicy, CustomPolicy {
-  late Offset lastFocalPoint;
-
-  @override
-  onComponentTap(String componentId) {
-    hideComponentHighlight(selectedComponentId);
-    canvasWriter.model.hideAllLinkJoints();
-
-    bool connected = connectComponents(selectedComponentId, componentId);
-    if (connected) {
-      selectedComponentId = null;
-    } else {
-      selectedComponentId = componentId;
-      highlightComponent(componentId);
-    }
-  }
-
-  @override
-  onComponentLongPress(String componentId) {
-    hideComponentHighlight(selectedComponentId);
-    selectedComponentId = null;
-    canvasWriter.model.hideAllLinkJoints();
-    canvasWriter.model.removeComponent(componentId);
-  }
-
-  @override
-  onComponentScaleStart(componentId, details) {
-    lastFocalPoint = details.localFocalPoint;
-  }
-
-  @override
-  onComponentScaleUpdate(componentId, details) {
-    Offset positionDelta = details.localFocalPoint - lastFocalPoint;
-
-    canvasWriter.model.moveComponent(componentId, positionDelta);
-
-    lastFocalPoint = details.localFocalPoint;
-  }
-
-  bool connectComponents(String? sourceComponentId, String? targetComponentId) {
-    if (sourceComponentId == null || targetComponentId == null) {
-      return false;
-    }
-    if (sourceComponentId == targetComponentId) {
-      return false;
-    }
-    // test if the connection between two components already exists (one way)
-    if (canvasReader.model
-        .getComponent(sourceComponentId)
-        .connections
-        .any((connection) => (connection is ConnectionOut) && (connection.otherComponentId == targetComponentId))) {
-      return false;
-    }
-
-    canvasWriter.model.connectTwoComponents(
-      sourceComponentId: sourceComponentId,
-      targetComponentId: targetComponentId,
-      linkStyle: LinkStyle(
-        arrowType: ArrowType.arrow,
-        lineWidth: 8,
-        backArrowType: ArrowType.centerCircle,
-        color: Colors.green,
-        arrowSize: 15,
-        backArrowSize: 10,
-        lineType: LineType.dashed,
-      ),
-    );
-
-    return true;
-  }
-}
-
-mixin CustomPolicy implements PolicySet {
-  String? selectedComponentId;
-
-  highlightComponent(String componentId) {
-    canvasReader.model.getComponent(componentId).data.showHighlight();
-    canvasReader.model.getComponent(componentId).updateComponent();
-  }
-
-  hideComponentHighlight(String? componentId) {
-    if (selectedComponentId != null && componentId != null) {
-      canvasReader.model.getComponent(componentId).data.hideHighlight();
-      canvasReader.model.getComponent(componentId).updateComponent();
-    }
-  }
-
-  deleteAllComponents() {
-    selectedComponentId = null;
-    canvasWriter.model.removeAllComponents();
-  }
-}
-
-mixin MyLinkAttachmentPolicy implements LinkAttachmentPolicy {
-  @override
-  Alignment getLinkEndpointAlignment(
-    ComponentData componentData,
-    Offset targetPoint,
-  ) {
-    Offset pointPosition = targetPoint - (componentData.position + componentData.size.center(Offset.zero));
-    pointPosition = Offset(
-      pointPosition.dx / componentData.size.width,
-      pointPosition.dy / componentData.size.height,
-    );
-
-    switch (componentData.type) {
-      case 'random':
-        return Alignment.center;
-
-      case 'flutter':
-        return const Alignment(-0.54, 0);
-
-      default:
-        Offset pointAlignment;
-        if (pointPosition.dx.abs() >= pointPosition.dy.abs()) {
-          pointAlignment = Offset(pointPosition.dx / pointPosition.dx.abs(), pointPosition.dy / pointPosition.dx.abs());
-        } else {
-          pointAlignment = Offset(pointPosition.dx / pointPosition.dy.abs(), pointPosition.dy / pointPosition.dy.abs());
-        }
-        return Alignment(pointAlignment.dx, pointAlignment.dy);
-    }
   }
 }

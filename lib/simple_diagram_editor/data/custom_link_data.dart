@@ -7,9 +7,9 @@ class MyLinkData {
     this.endLabel = '',
   });
 
-  MyLinkData.copy(MyLinkData customData)
+  MyLinkData.copy(MyLinkData other)
       : this(
-          startLabel: customData.startLabel,
-          endLabel: customData.endLabel,
+          startLabel: other.startLabel,
+          endLabel: other.endLabel,
         );
 }

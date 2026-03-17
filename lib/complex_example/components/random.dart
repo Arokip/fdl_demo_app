@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 class RandomComponent extends StatelessWidget {
   final ComponentData componentData;
 
-  const RandomComponent({super.key, 
+  const RandomComponent({
+    super.key,
     required this.componentData,
   });
 
@@ -35,7 +36,9 @@ class RandomComponent extends StatelessWidget {
       child: CustomPaint(
         painter: RandomPainter(
           color: Colors.grey,
-          borderColor: componentData.data.isHighlightVisible ? Colors.pink : Colors.black,
+          borderColor: componentData.data?.isHighlightVisible == true
+              ? Colors.pink
+              : Colors.black,
           borderWidth: 2,
           path: componentPath(),
           path2: componentPath(),

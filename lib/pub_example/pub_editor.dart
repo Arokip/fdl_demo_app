@@ -13,7 +13,80 @@ class PubDiagramEditor extends StatefulWidget {
 }
 
 class PubDiagramEditorState extends State<PubDiagramEditor> {
-  MyPolicySet myPolicySet = MyPolicySet();
+  late final DiagramController<MyComponentData, void> controller;
+
+  String? selectedComponentId;
+  String serializedDiagram = '{"components": [], "links": []}';
+  Offset lastFocalPoint = Offset.zero;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = DiagramController<MyComponentData, void>(
+      canvasConfig: CanvasConfig(backgroundColor: Colors.grey[300]!),
+      componentDataCodec: JsonCodec<MyComponentData>(
+        decode: (json) => MyComponentData.fromJson(json),
+        encode: (data) => data.toJson(),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  void highlightComponent(String componentId) {
+    controller.getComponent(componentId).data?.showHighlight();
+    controller.getComponent(componentId).updateComponent();
+    selectedComponentId = componentId;
+  }
+
+  void hideComponentHighlight(String? componentId) {
+    if (componentId != null) {
+      controller.getComponent(componentId).data?.hideHighlight();
+      controller.getComponent(componentId).updateComponent();
+      selectedComponentId = null;
+    }
+  }
+
+  bool connectComponents(String? sourceComponentId, String? targetComponentId) {
+    if (sourceComponentId == null || targetComponentId == null) return false;
+    if (sourceComponentId == targetComponentId) return false;
+    if (controller
+        .getComponent(sourceComponentId)
+        .connections
+        .any((connection) =>
+            connection is OutgoingConnection &&
+            connection.otherComponentId == targetComponentId)) {
+      return false;
+    }
+    controller.connect(
+      sourceComponentId: sourceComponentId,
+      targetComponentId: targetComponentId,
+      linkStyle: const LinkStyle(
+        arrowType: ArrowType.pointedArrow,
+        lineWidth: 1.5,
+        backArrowType: ArrowType.centerCircle,
+      ),
+    );
+    return true;
+  }
+
+  void deleteAllComponents() {
+    selectedComponentId = null;
+    controller.removeAllComponents();
+  }
+
+  void serialize() {
+    serializedDiagram = controller.serialize();
+  }
+
+  void deserialize() {
+    controller.removeAllComponents();
+    controller.deserialize(serializedDiagram);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +98,63 @@ class PubDiagramEditorState extends State<PubDiagramEditor> {
               Container(color: Colors.grey),
               Padding(
                 padding: const EdgeInsets.all(16),
-                child: DiagramEditor(
-                  diagramEditorContext: DiagramEditorContext(policySet: myPolicySet),
+                child: DiagramEditor<MyComponentData, void>(
+                  controller: controller,
+                  componentBuilder:
+                      (BuildContext context, ComponentData<MyComponentData> component) {
+                    return Container(
+                      decoration: BoxDecoration(
+                        color: component.data?.color,
+                        border: Border.all(
+                          width: 2,
+                          color: (component.data?.isHighlightVisible ?? false)
+                              ? Colors.pink
+                              : Colors.black,
+                        ),
+                      ),
+                      child: const Center(child: Text('component')),
+                    );
+                  },
+                  onCanvasTapUp: (TapUpDetails details) {
+                    controller.hideAllLinkJoints();
+                    if (selectedComponentId != null) {
+                      hideComponentHighlight(selectedComponentId);
+                    } else {
+                      controller.addComponent(
+                        ComponentData<MyComponentData>(
+                          size: const Size(96, 72),
+                          position: controller
+                              .fromCanvasCoordinates(details.localPosition),
+                          data: MyComponentData(),
+                        ),
+                      );
+                    }
+                  },
+                  onComponentTap: (String componentId) {
+                    controller.hideAllLinkJoints();
+                    bool connected =
+                        connectComponents(selectedComponentId, componentId);
+                    hideComponentHighlight(selectedComponentId);
+                    if (!connected) {
+                      highlightComponent(componentId);
+                    }
+                  },
+                  onComponentLongPress: (String componentId) {
+                    hideComponentHighlight(selectedComponentId);
+                    controller.hideAllLinkJoints();
+                    controller.removeComponent(componentId);
+                  },
+                  onComponentScaleStart: (String componentId,
+                      ScaleStartDetails details) {
+                    lastFocalPoint = details.localFocalPoint;
+                  },
+                  onComponentScaleUpdate: (String componentId,
+                      ScaleUpdateDetails details) {
+                    Offset positionDelta =
+                        details.localFocalPoint - lastFocalPoint;
+                    controller.moveComponent(componentId, positionDelta);
+                    lastFocalPoint = details.localFocalPoint;
+                  },
                 ),
               ),
               Padding(
@@ -34,13 +162,21 @@ class PubDiagramEditorState extends State<PubDiagramEditor> {
                 child: Row(
                   children: [
                     ElevatedButton(
-                        onPressed: () => myPolicySet.deleteAllComponents(),
-                        style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-                        child: const Text('delete all')),
+                      onPressed: () => deleteAllComponents(),
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.red),
+                      child: const Text('delete all'),
+                    ),
                     const Spacer(),
-                    ElevatedButton(onPressed: () => myPolicySet.serialize(), child: const Text('serialize')),
+                    ElevatedButton(
+                      onPressed: () => serialize(),
+                      child: const Text('serialize'),
+                    ),
                     const SizedBox(width: 8),
-                    ElevatedButton(onPressed: () => myPolicySet.deserialize(), child: const Text('deserialize')),
+                    ElevatedButton(
+                      onPressed: () => deserialize(),
+                      child: const Text('deserialize'),
+                    ),
                   ],
                 ),
               ),
@@ -49,7 +185,7 @@ class PubDiagramEditorState extends State<PubDiagramEditor> {
                 left: 8,
                 child: ElevatedButton(
                   style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(Colors.blue),
+                    backgroundColor: WidgetStateProperty.all(Colors.blue),
                   ),
                   child: const Row(
                     children: [
@@ -69,196 +205,31 @@ class PubDiagramEditorState extends State<PubDiagramEditor> {
   }
 }
 
-// Custom component Data which you can assign to a component to dynamic data property.
 class MyComponentData {
   MyComponentData();
 
   bool isHighlightVisible = false;
-  Color color = Color((math.Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0);
+  Color color = Color.fromARGB(
+    255,
+    math.Random().nextInt(256),
+    math.Random().nextInt(256),
+    math.Random().nextInt(256),
+  );
 
-  showHighlight() {
+  void showHighlight() {
     isHighlightVisible = true;
   }
 
-  hideHighlight() {
+  void hideHighlight() {
     isHighlightVisible = false;
   }
 
-  // Function used to deserialize the diagram. Must be passed to `canvasWriter.model.deserializeDiagram` for proper deserialization.
   MyComponentData.fromJson(Map<String, dynamic> json)
       : isHighlightVisible = json['highlight'],
         color = Color(int.parse(json['color'], radix: 16));
 
-  // Function used to serialization of the diagram. E.g. to save to a file.
   Map<String, dynamic> toJson() => {
         'highlight': isHighlightVisible,
-        'color': color.toString().split('(0x')[1].split(')')[0],
+        'color': color.toARGB32().toRadixString(16),
       };
-}
-
-// A set of policies compound of mixins. There are some custom policy implementations and some policies defined by diagram_editor library.
-class MyPolicySet extends PolicySet
-    with
-        MyInitPolicy,
-        MyComponentDesignPolicy,
-        MyCanvasPolicy,
-        MyComponentPolicy,
-        CustomPolicy,
-        //
-        CanvasControlPolicy,
-        LinkControlPolicy,
-        LinkJointControlPolicy,
-        LinkAttachmentRectPolicy {}
-
-// A place where you can init the canvas or your diagram (eg. load an existing diagram).
-mixin MyInitPolicy implements InitPolicy {
-  @override
-  initializeDiagramEditor() {
-    canvasWriter.state.setCanvasColor(Colors.grey[300]!);
-  }
-}
-
-// This is the place where you can design a component.
-// Use switch on componentData.type or componentData.data to define different component designs.
-mixin MyComponentDesignPolicy implements ComponentDesignPolicy {
-  @override
-  Widget showComponentBody(ComponentData componentData) {
-    return Container(
-      decoration: BoxDecoration(
-        color: (componentData.data as MyComponentData).color,
-        border: Border.all(
-          width: 2,
-          color: (componentData.data as MyComponentData).isHighlightVisible ? Colors.pink : Colors.black,
-        ),
-      ),
-      child: const Center(child: Text('component')),
-    );
-  }
-}
-
-// You can override the behavior of any gesture on canvas here.
-// Note that it also implements CustomPolicy where own variables and functions can be defined and used here.
-mixin MyCanvasPolicy implements CanvasPolicy, CustomPolicy {
-  @override
-  onCanvasTapUp(TapUpDetails details) {
-    canvasWriter.model.hideAllLinkJoints();
-    if (selectedComponentId != null) {
-      hideComponentHighlight(selectedComponentId);
-    } else {
-      canvasWriter.model.addComponent(
-        ComponentData(
-          size: const Size(96, 72),
-          position: canvasReader.state.fromCanvasCoordinates(details.localPosition),
-          data: MyComponentData(),
-        ),
-      );
-    }
-  }
-}
-
-// Mixin where component behaviour is defined. In this example it is the movement, highlight and connecting two components.
-mixin MyComponentPolicy implements ComponentPolicy, CustomPolicy {
-  // variable used to calculate delta offset to move the component.
-  late Offset lastFocalPoint;
-
-  @override
-  onComponentTap(String componentId) {
-    canvasWriter.model.hideAllLinkJoints();
-
-    bool connected = connectComponents(selectedComponentId, componentId);
-    hideComponentHighlight(selectedComponentId);
-    if (!connected) {
-      highlightComponent(componentId);
-    }
-  }
-
-  @override
-  onComponentLongPress(String componentId) {
-    hideComponentHighlight(selectedComponentId);
-    canvasWriter.model.hideAllLinkJoints();
-    canvasWriter.model.removeComponent(componentId);
-  }
-
-  @override
-  onComponentScaleStart(componentId, details) {
-    lastFocalPoint = details.localFocalPoint;
-  }
-
-  @override
-  onComponentScaleUpdate(componentId, details) {
-    Offset positionDelta = details.localFocalPoint - lastFocalPoint;
-    canvasWriter.model.moveComponent(componentId, positionDelta);
-    lastFocalPoint = details.localFocalPoint;
-  }
-
-  // This function tests if it's possible to connect the components and if yes, connects them
-  bool connectComponents(String? sourceComponentId, String? targetComponentId) {
-    if (sourceComponentId == null || targetComponentId == null) {
-      return false;
-    }
-    // tests if the ids are not same (the same component)
-    if (sourceComponentId == targetComponentId) {
-      return false;
-    }
-    // tests if the connection between two components already exists (one way)
-    if (canvasReader.model
-        .getComponent(sourceComponentId)
-        .connections
-        .any((connection) => (connection is ConnectionOut) && (connection.otherComponentId == targetComponentId))) {
-      return false;
-    }
-
-    // This connects two components (creates a link between), you can define the design of the link with LinkStyle.
-    canvasWriter.model.connectTwoComponents(
-      sourceComponentId: sourceComponentId,
-      targetComponentId: targetComponentId,
-      linkStyle: LinkStyle(
-        arrowType: ArrowType.pointedArrow,
-        lineWidth: 1.5,
-        backArrowType: ArrowType.centerCircle,
-      ),
-    );
-
-    return true;
-  }
-}
-
-// You can create your own Policy to define own variables and functions with canvasReader and canvasWriter.
-mixin CustomPolicy implements PolicySet {
-  String? selectedComponentId;
-  String serializedDiagram = '{"components": [], "links": []}';
-
-  highlightComponent(String componentId) {
-    canvasReader.model.getComponent(componentId).data.showHighlight();
-    canvasReader.model.getComponent(componentId).updateComponent();
-    selectedComponentId = componentId;
-  }
-
-  hideComponentHighlight(String? componentId) {
-    if (componentId != null) {
-      canvasReader.model.getComponent(componentId).data.hideHighlight();
-      canvasReader.model.getComponent(componentId).updateComponent();
-      selectedComponentId = null;
-    }
-  }
-
-  deleteAllComponents() {
-    selectedComponentId = null;
-    canvasWriter.model.removeAllComponents();
-  }
-
-  // Save the diagram to String in json format.
-  serialize() {
-    serializedDiagram = canvasReader.model.serializeDiagram();
-  }
-
-  // Load the diagram from json format. Do it cautiously, to prevent unstable state remove the previous diagram (id collision can happen).
-  deserialize() {
-    canvasWriter.model.removeAllComponents();
-    canvasWriter.model.deserializeDiagram(
-      serializedDiagram,
-      decodeCustomComponentData: (json) => MyComponentData.fromJson(json),
-      decodeCustomLinkData: null,
-    );
-  }
 }

@@ -3,9 +3,9 @@ import 'package:diagram_editor_apps/ports_example/widget/port_component.dart';
 import 'package:flutter/material.dart';
 
 class RectComponent extends StatelessWidget {
-  final ComponentData componentData;
+  final ComponentData<dynamic> componentData;
 
-  const RectComponent({super.key, 
+  const RectComponent({super.key,
     required this.componentData,
   });
 

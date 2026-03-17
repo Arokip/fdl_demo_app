@@ -3,8 +3,8 @@ import 'package:diagram_editor_apps/simple_diagram_editor/data/custom_component_
 import 'package:diagram_editor_apps/simple_diagram_editor/dialog/pick_color_dialog.dart';
 import 'package:flutter/material.dart';
 
-void showEditComponentDialog(BuildContext context, ComponentData componentData) {
-  MyComponentData customData = componentData.data;
+void showEditComponentDialog(BuildContext context, ComponentData<MyComponentData> componentData) {
+  final customData = componentData.data!;
 
   Color color = customData.color;
   Color borderColor = customData.borderColor;

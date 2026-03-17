@@ -5,7 +5,8 @@ class RainbowItem extends StatelessWidget {
   final Color color;
   final double width;
 
-  const RainbowItem({super.key, 
+  const RainbowItem({
+    super.key,
     required this.color,
     required this.width,
   });
@@ -22,7 +23,8 @@ class RainbowItem extends StatelessWidget {
 class ComplexRainbowComponent extends StatelessWidget {
   final ComponentData componentData;
 
-  const ComplexRainbowComponent({super.key, 
+  const ComplexRainbowComponent({
+    super.key,
     required this.componentData,
   });
 
@@ -30,11 +32,13 @@ class ComplexRainbowComponent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: componentData.data.color,
+        color: componentData.data?.color,
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
           width: 4,
-          color: componentData.data.isHighlightVisible ? Colors.pink : Colors.black,
+          color: componentData.data?.isHighlightVisible == true
+              ? Colors.pink
+              : Colors.black,
         ),
       ),
       child: Column(

@@ -2,9 +2,9 @@ import 'package:diagram_editor/diagram_editor.dart';
 import 'package:flutter/material.dart';
 
 class PortComponent extends StatelessWidget {
-  final ComponentData componentData;
+  final ComponentData<dynamic> componentData;
 
-  const PortComponent({super.key, 
+  const PortComponent({super.key,
     required this.componentData,
   });
 
@@ -34,7 +34,7 @@ class Port extends StatelessWidget {
   final Color color;
   final Color borderColor;
 
-  const Port({super.key, 
+  const Port({super.key,
     this.color = Colors.white,
     this.borderColor = Colors.black,
   });

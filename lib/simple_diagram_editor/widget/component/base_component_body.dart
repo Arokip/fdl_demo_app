@@ -6,14 +6,15 @@ class BaseComponentBody extends StatelessWidget {
   final ComponentData componentData;
   final CustomPainter componentPainter;
 
-  const BaseComponentBody({super.key, 
+  const BaseComponentBody({
+    super.key,
     required this.componentData,
     required this.componentPainter,
   });
 
   @override
   Widget build(BuildContext context) {
-    final MyComponentData customData = componentData.data;
+    final customData = componentData.data as MyComponentData?;
 
     return GestureDetector(
       child: CustomPaint(
@@ -21,10 +22,10 @@ class BaseComponentBody extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 4),
           child: Align(
-            alignment: customData.textAlignment,
+            alignment: customData?.textAlignment ?? Alignment.center,
             child: Text(
-              customData.text,
-              style: TextStyle(fontSize: customData.textSize),
+              customData?.text ?? '',
+              style: TextStyle(fontSize: customData?.textSize ?? 20),
             ),
           ),
         ),
